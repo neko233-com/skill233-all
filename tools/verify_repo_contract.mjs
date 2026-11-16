@@ -107,6 +107,12 @@ for (const f of srcFiles) {
 rule('R8', '仓库中无 Actions 触发器 / action 引用', triggerHits.length === 0,
   triggerHits.length ? `发现: ${triggerHits.join(', ')}` : '');
 
+/* R9 — Contract 与 README 必须明确「本机 Cloudflare CLI / wrangler」为唯一发布入口 */
+const localCliPhrase = /本机\s*Cloudflare\s*CLI/i;
+const localCliOk = localCliPhrase.test(agents) && localCliPhrase.test(readme);
+rule('R9', 'Contract 与 README 明确使用本机 Cloudflare CLI 发布', localCliOk,
+  localCliOk ? '' : '需在 AGENTS.md 与 README.md 同时写明「本机 Cloudflare CLI」');
+
 /* ------------------------------ report ---------------------------------- */
 const pass = results.filter((r) => r.ok).length;
 console.log('Contract 强制验证（skill233-all）');

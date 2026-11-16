@@ -88,11 +88,13 @@ npm run build        # 重新构建站点
   - `备选工具名数组`（第 11 位）填同类竞品的名称，构建期自动解析成可点击的备选链接；未填或不足 3 个时，会从同一子分组/领域自动补足。
   - 平台值与搜索别名见文件头 `PLATFORM_LABELS` / `PLATFORM_ALIASES`。
   - 此为人工精选数据，不随 `data:fetch` 覆盖。新增领域需同时在 `src/lib/taxonomy.mjs` 的 `DOMAINS` 注册领域与子分组。
-- **发布方式**：本仓库**不使用 GitHub Actions / CI 自动发布**（GitHub 额度不足）。数据更新只改本地 JSON；发布由人手动执行，见「部署」一节。约束见根目录 `AGENTS.md`，可用 `node tools/verify_repo_contract.mjs` 验证。
+- **发布方式**：本仓库**不使用 GitHub Actions / CI 自动发布**（GitHub 额度不足）。唯一发布入口是**本机 Cloudflare CLI（wrangler）**，由人在本机手动执行；数据更新只改本地 JSON，见「部署」一节。约束见根目录 `AGENTS.md`，可用 `node tools/verify_repo_contract.mjs` 验证。
 
 ## 部署
 
-### Cloudflare Pages（手动）
+### Cloudflare Pages（本机 CLI 手动发布）
+
+唯一发布通道是**本机 Cloudflare CLI（wrangler）**，不使用 GitHub Actions / CI / 云端流水线：
 
 ```bash
 npm run build
@@ -128,7 +130,7 @@ curl -X POST \
 
 ## 契约与验证
 
-根目录 `AGENTS.md` 是本仓库的行为契约（中文，强制分节）。核心约束：**禁止 GitHub Actions / CI 自动发布**，发布只能手动执行。任何改动后运行：
+根目录 `AGENTS.md` 是本仓库的行为契约（中文，强制分节）。核心约束：**禁止 GitHub Actions / CI 自动发布**，发布只能用本机 Cloudflare CLI（wrangler）手动执行。任何改动后运行：
 
 ```bash
 node tools/verify_repo_contract.mjs

@@ -10,12 +10,12 @@
 
 1. **禁止 GitHub Actions / CI 自动发布**。仓库不得包含 `.github/workflows/` 下的任何 workflow，也不得包含 `.gitlab-ci.yml`、`.travis.yml`、`Jenkinsfile`、`circle.yml`、`netlify.toml` 等任何 CI/CD 自动发布配置。原因：GitHub Actions 额度不足，且本项目采用手动可控发布。
 2. **禁止在 README 或任何配置中出现** `GitHub Actions`、`actions/checkout`、`wrangler-action`、`workflow_dispatch`、`secrets.CLOUDFLARE_*`、`自动部署` 等 CI 发布相关表述或配置。
-3. **发布只能手动执行**。唯一发布入口为本地命令：
+3. **发布与 Cloudflare 操作只能在本机执行**。唯一发布入口是**本机 Cloudflare CLI（wrangler）**：
    ```bash
    npm run build
    npx wrangler pages deploy dist --project-name skill233-all --branch main
    ```
-   `package.json` 的 `deploy` 脚本必须是上述 wrangler 手动部署，且不得依赖 `wrangler-action` 或 `@actions/*`。
+   不得使用 GitHub Actions、任何 CI/CD 服务、云端流水线或第三方自动发布机器人。`package.json` 的 `deploy` 脚本必须是上述 wrangler 手动部署，且不得依赖 `wrangler-action` 或 `@actions/*`。若 wrangler 4.x 不提供某项能力（如 Pages 自定义域名绑定），只能在本机手动调用 Cloudflare API 或在 Cloudflare 面板操作，且**不得写入任何自动化配置**。
 4. **数据更新与发布解耦**。`npm run data:fetch` / `data:build` 只更新本地 `src/data/*.json`，不会触发任何自动发布；发布时机由人决定。
 
 ## 强制：本地环境与代理
