@@ -1,0 +1,101 @@
+{
+  "generatedAt": "2026-11-16T08:32:32.568Z",
+  "total": 339,
+  "mine": 313,
+  "curated": 26,
+  "categories": [
+    {
+      "id": "ai-agent",
+      "label": "AI / Agent",
+      "icon": "🤖",
+      "color": "#8b7cff"
+    },
+    {
+      "id": "game",
+      "label": "游戏开发",
+      "icon": "🎮",
+      "color": "#ff7a9c"
+    },
+    {
+      "id": "design",
+      "label": "设计 / UX",
+      "icon": "🎨",
+      "color": "#ffb454"
+    },
+    {
+      "id": "devtools",
+      "label": "开发工具",
+      "icon": "🛠️",
+      "color": "#4dd4ac"
+    },
+    {
+      "id": "content",
+      "label": "内容创作",
+      "icon": "✍️",
+      "color": "#f278c8"
+    },
+    {
+      "id": "efficiency",
+      "label": "效率工具",
+      "icon": "⚡",
+      "color": "#ffd166"
+    },
+    {
+      "id": "security",
+      "label": "安全",
+      "icon": "🔒",
+      "color": "#ff6b6b"
+    },
+    {
+      "id": "data",
+      "label": "数据 / 数据库",
+      "icon": "🗄️",
+      "color": "#54b9ff"
+    },
+    {
+      "id": "devops",
+      "label": "运维 / 网络",
+      "icon": "🌐",
+      "color": "#5ad1e6"
+    },
+    {
+      "id": "desktop",
+      "label": "客户端 / 桌面",
+      "icon": "🖥️",
+      "color": "#a0a4ff"
+    },
+    {
+      "id": "language",
+      "label": "语言 / 框架",
+      "icon": "🧩",
+      "color": "#9be15d"
+    },
+    {
+      "id": "learn",
+      "label": "学习 / 资料",
+      "icon": "📚",
+      "color": "#c3a6ff"
+    },
+    {
+      "id": "other",
+      "label": "其他",
+      "icon": "📦",
+      "color": "#9aa0aa"
+    }
+  ],
+  "counts": {
+    "other": 13,
+    "design": 35,
+    "data": 37,
+    "ai-agent": 47,
+    "game": 65,
+    "devops": 44,
+    "language": 34,
+    "content": 44,
+    "desktop": 9,
+    "devtools": 2,
+    "security": 6,
+    "efficiency": 1,
+    "learn": 2
+  }
+}

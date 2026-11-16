@@ -1,0 +1,29 @@
+{
+  "name": "skill233-all",
+  "version": "0.1.0",
+  "description": "skill.neko233.com — neko233 的 Agent Skill 索引站，超快检索。纯前端，无后端。",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "author": "neko233-com",
+  "homepage": "https://skill.neko233.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neko233-com/skill233-all.git"
+  },
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
+    "typecheck": "tsc --noEmit",
+    "data:fetch": "node scripts/fetch-data.mjs",
+    "data:build": "node scripts/build-catalog.mjs",
+    "data": "npm run data:build",
+    "deploy": "npx wrangler pages deploy dist --project-name skill233-all --branch main"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "vite-plus": "1.6.0",
+    "wrangler": "^4.162.0"
+  }
+}
