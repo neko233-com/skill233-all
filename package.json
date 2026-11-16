@@ -19,7 +19,8 @@
     "data:fetch": "node scripts/fetch-data.mjs",
     "data:build": "node scripts/build-catalog.mjs",
     "data": "npm run data:build",
-    "deploy": "npx wrangler pages deploy dist --project-name skill233-all --branch main"
+    "deploy": "npx wrangler pages deploy dist --project-name skill233-all --branch main",
+    "verify": "node tools/verify_repo_contract.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.0",

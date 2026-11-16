@@ -88,7 +88,7 @@ npm run build        # 重新构建站点
   - `备选工具名数组`（第 11 位）填同类竞品的名称，构建期自动解析成可点击的备选链接；未填或不足 3 个时，会从同一子分组/领域自动补足。
   - 平台值与搜索别名见文件头 `PLATFORM_LABELS` / `PLATFORM_ALIASES`。
   - 此为人工精选数据，不随 `data:fetch` 覆盖。新增领域需同时在 `src/lib/taxonomy.mjs` 的 `DOMAINS` 注册领域与子分组。
-- GitHub Actions（`.github/workflows/deploy.yml`）在 push 到 `main` 时自动重采数据、构建并部署。
+- **发布方式**：本仓库**不使用 GitHub Actions / CI 自动发布**（GitHub 额度不足）。数据更新只改本地 JSON；发布由人手动执行，见「部署」一节。约束见根目录 `AGENTS.md`，可用 `node tools/verify_repo_contract.mjs` 验证。
 
 ## 部署
 
@@ -99,33 +99,48 @@ npm run build
 npx wrangler pages deploy dist --project-name skill233-all --branch main
 ```
 
-### 绑定自定义域名
+### 绑定自定义域名（需 DNS:Edit 权限，手动）
 
-`skill.neko233.com` 已通过 Cloudflare API 绑定到本项目（Pages 识别到 `neko233.com` zone 后会自动创建 CNAME 并签发证书）。新增域名时可参考：
+`skill.neko233.com` 与 `skills.neko233.com` 已通过 Cloudflare API 绑定到本项目，但 Pages 域名验证需要一条 CNAME：
+
+```
+类型   名称                     目标                       代理
+CNAME  skill.neko233.com       skill233-all.pages.dev     已代理（橙云）
+CNAME  skills.neko233.com      skill233-all.pages.dev     已代理（橙云）
+```
+
+**当前状态**：域名已绑定但验证 `pending`，Cloudflare 报 `CNAME record not set`，因此访问返回 522。本机 Cloudflare OAuth token 只有 `zone:read` / `pages:write`，**无 DNS 写入权限**，无法自建 CNAME。请在 Cloudflare 面板（或使用具备 `Zone:DNS:Edit` 的 API token）手动添加上面两条 CNAME；验证通过后状态转 `active`，522 即消失。
+
+添加域名的 API（仅绑定域名，不创建 DNS 记录）：
 
 ```bash
 # wrangler 4.x 已移除 pages domain add，用 API 添加：
+unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy
 curl -X POST \
   "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/skill233-all/domains" \
   -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
-  --data '{"name":"skill.neko233.com"}'
+  --data '{"name":"skills.neko233.com"}'
 ```
 
-- 域名状态会从 `initializing → pending → active`，HTTP 验证与 SSL 签发通常需要几分钟到数十分钟，属 Cloudflare 侧异步流程。
+- 域名状态：`initializing → pending → active`；CNAME 就绪后 HTTP 验证与 SSL 签发自动完成。
 - 验证阶段用 `https://skill233-all.pages.dev` 访问不受影响。
-- 本环境存在强制 HTTP(S) 代理，会导致 Cloudflare API 返回 500/522；运行 `wrangler` 前需 `unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy`，并指定 `XDG_CONFIG_HOME` 指向已登录的 wrangler 配置目录。
+- 本环境存在强制 HTTP(S) 代理，会导致 Cloudflare API 返回 500/522；运行 `wrangler` 或 CF API 前需 `unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy`，并 `export XDG_CONFIG_HOME="/c/Users/luohaojun/AppData/Roaming/xdg.config"`。
 
-### GitHub Actions 自动部署
+## 契约与验证
 
-在仓库 Settings → Secrets 配置：
+根目录 `AGENTS.md` 是本仓库的行为契约（中文，强制分节）。核心约束：**禁止 GitHub Actions / CI 自动发布**，发布只能手动执行。任何改动后运行：
 
-- `CLOUDFLARE_API_TOKEN`（需 `Pages:Edit` 权限）
-- `CLOUDFLARE_ACCOUNT_ID`
+```bash
+node tools/verify_repo_contract.mjs
+```
+
+退出码 0 表示契约通过；规则必须写进该脚本才生效。
 
 ## 目录结构
 
 ```
 .
+├── AGENTS.md               # 仓库行为契约（强制分节，禁止 CI 自动发布）
 ├── index.html              # 页面壳
 ├── src/
 │   ├── main.ts             # 应用逻辑、渲染、交互
@@ -143,7 +158,8 @@ curl -X POST \
 ├── data/                   # 原始采集数据（gh-mine.json / curated-raw.jsonl）
 ├── public/_headers         # Cloudflare 缓存/安全头
 ├── wrangler.jsonc          # Pages 配置
-└── .github/workflows/      # 自动部署
+└── tools/
+    └── verify_repo_contract.mjs  # 契约强制验证脚本（禁止 CI 等）
 ```
 
 ## License
