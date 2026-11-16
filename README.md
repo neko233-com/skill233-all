@@ -54,11 +54,19 @@ npx wrangler pages deploy dist --project-name skill233-all --branch main
 
 ### 绑定自定义域名
 
+`skill.neko233.com` 已通过 Cloudflare API 绑定到本项目（Pages 识别到 `neko233.com` zone 后会自动创建 CNAME 并签发证书）。新增域名时可参考：
+
 ```bash
-npx wrangler pages domain add skill.neko233.com --project-name skill233-all
+# wrangler 4.x 已移除 pages domain add，用 API 添加：
+curl -X POST \
+  "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/skill233-all/domains" \
+  -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
+  --data '{"name":"skill.neko233.com"}'
 ```
 
-随后在 DNS 中添加 CNAME：`skill.neko233.com` → `skill233-all.pages.dev`。
+- 域名状态会从 `initializing → pending → active`，HTTP 验证与 SSL 签发通常需要几分钟到数十分钟，属 Cloudflare 侧异步流程。
+- 验证阶段用 `https://skill233-all.pages.dev` 访问不受影响。
+- 本环境存在强制 HTTP(S) 代理，会导致 Cloudflare API 返回 500/522；运行 `wrangler` 前需 `unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy`，并指定 `XDG_CONFIG_HOME` 指向已登录的 wrangler 配置目录。
 
 ### GitHub Actions 自动部署
 
