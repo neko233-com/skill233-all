@@ -244,6 +244,12 @@ header.top {
 .card-foot .plat-line { color: var(--fg-2); font-size: 10.5px; letter-spacing: -.2px; }
 .tag-plat { color: var(--fg-2); border-color: var(--line-hi); background: var(--panel); font-family: var(--mono); font-size: 9.8px; }
 .tag-lic { color: var(--fg-3); border-style: dashed; }
+.tag-docs { display: inline-flex; align-items: center; gap: 3px; color: var(--fg); border-color: var(--line-hi);
+  background: var(--panel-hi); cursor: pointer; transition: all .15s; }
+.tag-docs svg { width: 11px; height: 11px; }
+.tag-docs:hover { background: var(--fg); color: var(--bg-1); border-color: var(--fg); }
+.alt-count { display: inline-flex; align-items: center; gap: 3px; color: var(--fg-3); font-size: 10px; }
+.alt-count svg { width: 11px; height: 11px; }
 
 .empty { text-align: center; padding: 90px 20px; color: var(--fg-3); }
 .empty .e-ico { font-size: 40px; margin-bottom: 14px; }
@@ -291,6 +297,33 @@ header.top {
 .btn.primary { background: var(--fg); color: #000; border-color: var(--fg); }
 .btn.primary:hover { background: var(--white); }
 .btn svg { width: 14px; height: 14px; }
+
+/* Docs callout: prominent "where to read the docs" block */
+.d-section h4 svg { width: 12px; height: 12px; vertical-align: -1px; margin-right: 3px; }
+.doc-callout { display: flex; align-items: center; gap: 12px; padding: 13px 14px; text-decoration: none;
+  border: 1px solid var(--line-hi); border-radius: var(--radius-sm); background: var(--panel);
+  transition: all .15s; }
+.doc-callout:hover { background: var(--panel-hi); border-color: var(--fg-3); }
+.dc-ico { width: 34px; height: 34px; border-radius: 7px; display: grid; place-items: center; flex-shrink: 0;
+  background: var(--bg-1); border: 1px solid var(--line); color: var(--fg); }
+.dc-ico svg { width: 17px; height: 17px; }
+.dc-body { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.dc-body b { font-size: 12.5px; font-weight: 600; color: var(--fg); }
+.dc-body small { font-size: 10.5px; color: var(--fg-3); font-family: var(--mono);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dc-go svg { width: 14px; height: 14px; color: var(--fg-3); }
+.doc-hint { margin-top: 8px; font-size: 11.5px; line-height: 1.6; color: var(--fg-3); }
+
+/* Alternative tools list */
+.alt-list { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.alt-item { display: flex; align-items: center; gap: 7px; min-width: 0; height: 36px; padding: 0 10px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  color: var(--fg-2); font-size: 12px; cursor: pointer; text-align: left; transition: all .15s; }
+.alt-item > span:nth-child(2) { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.alt-item:hover { background: var(--panel-hi); border-color: var(--line-hi); color: var(--fg); }
+.alt-ico svg { width: 13px; height: 13px; color: var(--fg-3); }
+.alt-go { display: flex; }
+.alt-go svg { width: 12px; height: 12px; color: var(--fg-3); }
 .copy-box { position: relative; margin-top: 9px; }
 .copy-box code { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--fg-2);
   background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 40px 12px 12px;
@@ -346,4 +379,5 @@ footer { margin-top: 60px; border-top: 1px solid var(--line); padding: 26px 0 40
   .sub-label { width: 100%; margin-bottom: 4px; }
   .drawer { padding: 26px 20px 50px; }
   .btn-ghost { padding: 0 9px; }
+  .alt-list { grid-template-columns: 1fr; }
 }

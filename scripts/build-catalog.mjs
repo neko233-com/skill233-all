@@ -272,14 +272,15 @@ for (const o of curated) {
 }
 
 /* ------------------------ software tools (links) ------------------------ */
-for (const t of TOOLS) {
+TOOLS.forEach((t, toolIndex) => {
   const domain = domainById.get(t.cat);
-  if (!domain) { console.warn(`unknown tool domain: ${t.cat} (${t.name})`); continue; }
+  if (!domain) { console.warn(`unknown tool domain: ${t.cat} (${t.name})`); return; }
   const subOk = domain.subs.some((s) => s.id === t.sub);
-  if (!subOk) { console.warn(`unknown tool subGroup: ${t.cat}/${t.sub} (${t.name})`); continue; }
+  if (!subOk) { console.warn(`unknown tool subGroup: ${t.cat}/${t.sub} (${t.name})`); return; }
   const platAliases = t.platforms.flatMap((p) => PLATFORM_ALIASES[p] || [p]);
   pushEntry({
-    id: slug(`tool-${t.name}`),
+    // slug() strips non-ASCII, so Chinese-only names collide. Use a stable index.
+    id: `tool-${t.cat}-${t.sub}-${toolIndex}`,
     name: t.name,
     owner: t.repo ? t.repo.split('/')[0] : '',
     // Cross-listed tools (e.g. Bitwarden in both browser-ext and pass-mgr)
@@ -303,7 +304,61 @@ for (const t of TOOLS) {
     platforms: t.platforms,
     license: t.license,
     hasRepo: !!t.repo,
+    docs: t.docs || t.url,
+    // raw alternative names; resolved to ids after all tools are registered
+    _altNames: t.alts || [],
   });
+});
+
+/* ----------- resolve alternative names + default docs for skills -------- */
+const tools = entries.filter((e) => e.source === 'tool');
+const toolByName = new Map();
+for (const t of tools) {
+  if (!toolByName.has(t.name)) toolByName.set(t.name, t);
+}
+// tolerant resolver: exact -> case-insensitive -> partial (either direction)
+function resolveTool(name) {
+  if (toolByName.has(name)) return toolByName.get(name);
+  const lower = name.toLowerCase();
+  for (const [n, e] of toolByName) if (n.toLowerCase() === lower) return e;
+  for (const [n, e] of toolByName) {
+    const nl = n.toLowerCase();
+    if (nl.includes(lower) || lower.includes(nl)) return e;
+  }
+  return null;
+}
+for (const e of entries) {
+  // Every entry gets a docs link (GitHub README for repos; official docs for tools).
+  if (!e.docs) e.docs = e.source === 'tool' ? e.url : `${e.url.replace(/\/$/, '')}#readme`;
+  // Resolve alternatives to lightweight {id, name} references.
+  if (e.source === 'tool') {
+    const ids = new Set([e.id]);
+    e.alts = [];
+    for (const raw of e._altNames || []) {
+      const target = resolveTool(raw);
+      if (!target || ids.has(target.id)) continue;
+      ids.add(target.id);
+      e.alts.push({ id: target.id, name: target.name });
+    }
+    // Ensure every tool has >=3 alternatives: first same sub-group, then whole domain.
+    if (e.alts.length < 3) {
+      for (const peer of tools) {
+        if (e.alts.length >= 3) break;
+        if (ids.has(peer.id) || peer.subGroup !== e.subGroup) continue;
+        ids.add(peer.id);
+        e.alts.push({ id: peer.id, name: peer.name });
+      }
+    }
+    if (e.alts.length < 3) {
+      for (const peer of tools) {
+        if (e.alts.length >= 3) break;
+        if (ids.has(peer.id) || peer.category !== e.category) continue;
+        ids.add(peer.id);
+        e.alts.push({ id: peer.id, name: peer.name });
+      }
+    }
+    delete e._altNames;
+  }
 }
 
 /* --------------------------- build index -------------------------------- */

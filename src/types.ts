@@ -23,6 +23,10 @@ export interface Skill {
   featured: boolean;
   install: string;
   updatedAt: string;
+  /** Where to read the official docs / tutorial / README (all entries). */
+  docs?: string;
+  /** Alternative tools (source === 'tool'), resolved to ids at build time. */
+  alts?: { id: string; name: string }[];
   /** Software-tool-only fields (source === 'tool'). */
   platforms?: string[];
   license?: string;

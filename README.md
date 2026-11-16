@@ -2,15 +2,17 @@
 
 > 线上地址：**https://skill.neko233.com**
 >
-> neko233 自用 Agent Skill + 业内优质 Skill + **117 款好用软件工具**的超链接索引站，尤其适合非程序人员/编程小白。**Vercel 风格**极简界面，纯前端、无后端，毫秒级检索，点击直达官网或源仓库。
+> neko233 自用 Agent Skill + 业内优质 Skill + **190 款好用软件工具**的超链接索引站，尤其适合非程序人员/编程小白。**每项都附使用文档与备选工具**——不知道怎么用就点「文档」，想货比三家就点「备选」。**Vercel 风格**极简界面，纯前端、无后端，毫秒级检索，点击直达官网或源仓库。
 
 ## 特性
 
 - **左侧垂直 Tab**：按「分组 → 领域 → 子分组」三级组织，分组可折叠、带实时计数，点击即筛选；移动端自动收起为抽屉式导航。
-- **全领域覆盖**：7 大分组、48 个领域、108 个子分组，覆盖 AI 智能、**实用软件**、软件工程、游戏（开发/策划/美术/运营）、设计创意、专业领域（**法律**、金融、医疗、教育、研究、产品、营销、招聘、销售、房地产）、效率生活。
-- **超快检索**：构建期生成倒排索引（6.8k+ token），运行时只切分查询词，中文分词（一元 + 二元）、英文前缀匹配、多词 AND，实测毫秒级。
-- **三类来源**：`我的`（neko233-com 公开仓库）+ `业内`（124 个社区优质 Skill 集合）+ `软件工具`（117 款人工精选软件）。
-- **软件工具推荐**：13 个软件领域 / 30 个子分组，覆盖 Windows / macOS / Linux / iOS / Android / Web / 浏览器插件，标注授权类型（开源免费 / 免费 / 免费增值 / 付费）。含 **Clash Verge Rev（电脑）+ Stash / Shadowrocket（iOS）+ Clash Meta for Android / FlClash（安卓）** 全平台方案，以及浏览器、办公、影音、下载、文件管理、系统增强、密码隐私、图片、AI 助手、翻译、通讯、编程入门等常用软件。
+- **全领域覆盖**：7 大分组、56 个领域、127 个子分组，覆盖 AI 智能、**实用软件**、软件工程、游戏（开发/策划/美术/运营）、设计创意、专业领域（**法律**、金融、医疗、教育、研究、产品、营销、招聘、销售、房地产）、效率生活。
+- **超快检索**：构建期生成倒排索引（7.5k+ token），运行时只切分查询词，中文分词（一元 + 二元）、英文前缀匹配、多词 AND，实测毫秒级。
+- **三类来源**：`我的`（neko233-com 公开仓库）+ `业内`（124 个社区优质 Skill 集合）+ `软件工具`（190 款人工精选软件）。
+- **📖 每项都有文档**：全部 628 项都带「文档」链接——软件指向官方帮助中心 / 教程 / GitHub Wiki，Skill 指向仓库 README。卡片上有 `📖 文档` 快捷入口一键直达，详情页有醒目的「去这里看文档」卡片并附新手提示。
+- **🔁 备选工具**：每款软件至少配 3 个同类备选（共 190 款、570+ 条备选关系），详情页可直接点击备选跳转对比其文档、平台与下载方式，解决「不知道选哪个」的问题。
+- **软件工具推荐**：21 个软件领域 / 49 个子分组，覆盖 Windows / macOS / Linux / iOS / Android / Web / 浏览器插件，标注授权类型（开源免费 / 免费 / 免费增值 / 付费）。含 **Clash Verge Rev（电脑）+ Stash / Shadowrocket（iOS）+ Clash Meta for Android / FlClash（安卓）** 全平台方案，以及浏览器、办公、影音、下载、文件管理、系统增强、密码隐私、图片、**PDF、OCR、录屏、远程控制、思维导图、网盘、阅读、日程**、AI 助手、翻译、通讯、编程入门等常用软件。
 - **超链接中心**：每张卡片都是外链；点开详情可一键打开官网/仓库、复制地址或安装命令。
 - **分组浏览首页**：默认按领域分区展示（每区精选 9 个 + 「查看全部」），点击后进入该领域的子分组视图。
 - **深链接**：每个分组/领域/子分组都有 URL（如 `#/domain/legal`、`#/domain/game-art/sub/pixel`、`#/group/pro`），可直接分享与前进后退。
@@ -24,10 +26,18 @@
 ├── 网络代理       → 电脑客户端（Clash Verge Rev）/ iPhone·iPad（Stash）/ 安卓（FlClash）/ 内核
 ├── 浏览器         → 主流浏览器 / 隐私浏览器 / 必装插件
 ├── 办公协作       → 办公套件 / 团队协作 / 文档笔记
-├── 影音播放       → 视频播放器 / 音乐平台
-├── 下载传输 / 文件管理 / 系统增强 / 密码与隐私 / 图片工具
-├── AI 助手        → AI 对话（ChatGPT/Claude/DeepSeek）/ AI 绘画 / AI 办公
-└── 翻译词典 / 通讯社交 / 编程入门
+├── 影音播放       → 视频播放器 / 在线视频 / 音乐平台
+├── 下载传输 / 文件管理 / 系统增强 / 密码隐私（含 2FA）/ 图片工具
+├── PDF 工具       → 阅读编辑（Acrobat/Foxit/PDF24）/ 转换处理（Smallpdf/ILovePDF）
+├── OCR / 扫描     → Umi-OCR / PaddleOCR / 白描 / 扫描全能王
+├── 录屏 / 直播    → OBS / Bandicam / Loom
+├── 远程控制       → RustDesk / TeamViewer / AnyDesk / ToDesk / 向日葵
+├── 思维导图 / 白板 → XMind / Excalidraw / Miro / boardmix
+├── 网盘 / 云存储  → 百度/阿里/夸克网盘 / Google Drive / OneDrive / rclone / alist
+├── 阅读 / 电子书  → 微信读书 / 掌阅 / Calibre
+├── 日程 / 待办    → 滴答清单 / Microsoft To Do / Forest / 番茄 ToDo
+├── AI 助手        → AI 对话（ChatGPT/Claude/DeepSeek）/ AI 绘画（MJ/SD/ComfyUI）/ AI 办公
+└── 翻译词典 / 通讯社交 / 编程入门（含 API 调试）
 
 专业领域 (pro)
 ├── 法律 (legal)       → 法律 AI 平台 / 合同审查 / 法规·知识库 / 综合
@@ -73,7 +83,11 @@ npm run build        # 重新构建站点
 - 自己仓库：`gh repo list neko233-com --visibility public`
 - 业内精选：维护在 `scripts/fetch-data.mjs` 的 `CURATED` 数组，中文简介与领域归类在 `scripts/build-catalog.mjs` 的 `CURATED_OVERRIDES`。
 - **分类体系**：`src/lib/taxonomy.mjs` 是唯一的分类真源，定义分组、领域、子分组、分类规则（顺序敏感：专业领域在前，通用 AI/dev 在后）及特殊仓库覆盖。新增领域只需在此文件添加，再 `npm run data:build`。
-- **软件工具**：维护在 `src/lib/tools-data.mjs`（名称、中文简介、官网/仓库 URL、平台、授权、标签），新增工具只需追加一条 `T(...)` 记录；平台值与搜索别名见文件头的 `PLATFORM_LABELS` / `PLATFORM_ALIASES`。此为人工精选数据，不随 `data:fetch` 覆盖。
+- **软件工具**：维护在 `src/lib/tools-data.mjs`。每条 `T(...)` 记录的字段依次为：`名称, 中文简介, 官网URL, 领域id, 子分组id, 平台数组, 授权, 标签, 仓库, 文档URL, 备选工具名数组`。其中：
+  - `文档URL`（第 10 位）指向官方帮助中心 / 教程 / Wiki，**务必填写**；构建期会为所有条目补上文档链接（Skill 自动指向仓库 README）。
+  - `备选工具名数组`（第 11 位）填同类竞品的名称，构建期自动解析成可点击的备选链接；未填或不足 3 个时，会从同一子分组/领域自动补足。
+  - 平台值与搜索别名见文件头 `PLATFORM_LABELS` / `PLATFORM_ALIASES`。
+  - 此为人工精选数据，不随 `data:fetch` 覆盖。新增领域需同时在 `src/lib/taxonomy.mjs` 的 `DOMAINS` 注册领域与子分组。
 - GitHub Actions（`.github/workflows/deploy.yml`）在 push 到 `main` 时自动重采数据、构建并部署。
 
 ## 部署
@@ -120,7 +134,7 @@ curl -X POST \
 │   ├── lib/
 │   │   ├── tokenize.js     # 构建/运行共享分词器
 │   │   ├── taxonomy.mjs    # 分组→领域→子分组 分类体系（唯一真源）
-│   │   └── tools-data.mjs  # 117 款精选软件工具链接（人工维护）
+│   │   └── tools-data.mjs  # 190 款精选软件工具链接（含文档 + 备选，人工维护）
 │   ├── data/               # 构建生成：catalog / search-index / meta
 │   └── types.ts
 ├── scripts/

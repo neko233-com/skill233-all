@@ -90,6 +90,7 @@ export const DOMAINS = [
     id: 'tool-media', label: '影音播放', icon: '🎬', group: 'tools',
     subs: [
       { id: 'media-player', label: '视频播放器' },
+      { id: 'media-stream', label: '在线视频' },
       { id: 'media-music', label: '音乐平台' },
     ],
   },
@@ -103,6 +104,7 @@ export const DOMAINS = [
       { id: 'file-archive', label: '压缩解压' },
       { id: 'file-search', label: '搜索 / 空间分析' },
       { id: 'file-sync', label: '同步备份' },
+      { id: 'file-transfer', label: '传输 / FTP' },
     ],
   },
   {
@@ -116,6 +118,7 @@ export const DOMAINS = [
     id: 'tool-privacy', label: '密码与隐私', icon: '🔐', group: 'tools',
     subs: [
       { id: 'pass-mgr', label: '密码管理' },
+      { id: 'pass-2fa', label: '二次验证' },
       { id: 'pass-priv', label: '隐私工具' },
     ],
   },
@@ -148,6 +151,60 @@ export const DOMAINS = [
       { id: 'dev-editor', label: '编辑器 / IDE' },
       { id: 'dev-env', label: '运行环境' },
       { id: 'dev-db', label: '数据库工具' },
+      { id: 'dev-api', label: 'API 调试' },
+    ],
+  },
+  {
+    id: 'tool-pdf', label: 'PDF 工具', icon: '📄', group: 'tools',
+    subs: [
+      { id: 'pdf-read', label: '阅读 / 编辑' },
+      { id: 'pdf-convert', label: '转换 / 处理' },
+    ],
+  },
+  {
+    id: 'tool-ocr', label: 'OCR / 扫描', icon: '🔎', group: 'tools',
+    subs: [
+      { id: 'ocr-tool', label: '文字识别' },
+      { id: 'ocr-scan', label: '扫描 / 证件照' },
+    ],
+  },
+  {
+    id: 'tool-record', label: '录屏 / 直播', icon: '🎥', group: 'tools',
+    subs: [
+      { id: 'record-tool', label: '录屏工具' },
+      { id: 'record-live', label: '直播 / 推流' },
+    ],
+  },
+  {
+    id: 'tool-remote', label: '远程控制', icon: '🖥️', group: 'tools',
+    subs: [{ id: 'remote-tool', label: '远程桌面' }],
+  },
+  {
+    id: 'tool-mind', label: '思维导图 / 白板', icon: '🧠', group: 'tools',
+    subs: [
+      { id: 'mind-map', label: '思维导图' },
+      { id: 'mind-board', label: '在线白板' },
+    ],
+  },
+  {
+    id: 'tool-cloud', label: '网盘 / 云存储', icon: '☁️', group: 'tools',
+    subs: [
+      { id: 'cloud-drive', label: '云盘服务' },
+      { id: 'cloud-client', label: '客户端 / 工具' },
+    ],
+  },
+  {
+    id: 'tool-read', label: '阅读 / 电子书', icon: '📖', group: 'tools',
+    subs: [
+      { id: 'read-app', label: '阅读 App' },
+      { id: 'read-mgr', label: '电子书管理' },
+    ],
+  },
+  {
+    id: 'tool-time', label: '日程 / 待办', icon: '⏰', group: 'tools',
+    subs: [
+      { id: 'time-task', label: '待办 / 日历' },
+      { id: 'time-focus', label: '专注 / 计时' },
     ],
   },
 

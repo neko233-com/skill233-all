@@ -39,6 +39,8 @@ const ICONS = {
   external: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>`,
   copy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></svg>`,
   docs: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M14 4v6h6"/></svg>`,
+  book: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>`,
+  swap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h13l-3-3M17 17H4l3 3"/></svg>`,
   menu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>`,
   chevron: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`,
 };
@@ -90,7 +92,7 @@ app.innerHTML = `
       <section class="hero">
         <div class="hero-badge"><span class="dot"></span> 纯静态 · 毫秒检索 · 分组浏览 · 每日更新</div>
         <h1>找到好用的 <span class="dim">Skill 与软件</span></h1>
-        <p>收录 <b>自用技能</b>、<b>业内优质 Skill</b> 与 <b>${metaData.tools} 款好用软件</b>，按 <b>分组 → 领域 → 子分组</b> 组织，<b>一键直达</b>官网或源仓库。</p>
+        <p>收录 <b>自用技能</b>、<b>业内优质 Skill</b> 与 <b>${metaData.tools} 款好用软件</b>，每项附 <b>使用文档</b>与 <b>备选工具</b>，按 <b>分组 → 领域 → 子分组</b> 组织，<b>一键直达</b>。</p>
         <div class="searchbox" id="searchbox">
           <span class="s-icon">${ICONS.search}</span>
           <input id="q" type="text" placeholder="搜索技能、软件、平台、领域…  例如：Clash Verge / 法律 / 截图 / iOS / 密码" autocomplete="off" spellcheck="false" />
@@ -236,12 +238,14 @@ function cardHTML(s: Skill): string {
         ${isTool
           ? `${plats.slice(0, 3).map((p) => `<span class="tag tag-plat">${esc(p)}</span>`).join('')}<span class="tag tag-lic">${esc(s.license || '')}</span>`
           : s.tags.slice(0, 2).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}
+        ${s.docs ? `<span class="tag tag-docs" data-docs="${esc(s.docs)}" title="查看使用文档 / 教程">${ICONS.book} 文档</span>` : ''}
       </div>
       <div class="card-foot">
         ${isTool
           ? `<span class="plat-line">${esc(plats.slice(0, 4).map((p) => PLAT_SHORT[p] || p).join(' / '))}${plats.length > 4 ? ' …' : ''}</span>`
           : `<span class="star">${ICONS.star} ${fmtStars(s.stars)}</span>
              ${s.language ? `<span class="lang"><span class="lang-dot" style="background:${langColor(s.language)}"></span>${esc(s.language)}</span>` : ''}`}
+        ${s.alts && s.alts.length ? `<span class="alt-count" title="${s.alts.length} 个备选工具">${ICONS.swap} ${s.alts.length}</span>` : ''}
         <span class="badge-src ${s.source}">${srcBadge}</span>
       </div>
     </a>`;
@@ -510,6 +514,15 @@ function openDrawer(id: string) {
       ${s.descriptionZh && s.description && s.description !== s.descriptionZh ? `<div class="d-desc" style="margin-top:10px;color:var(--fg-3);font-size:12.5px">${esc(s.description)}</div>` : ''}
     </div>
     ${s.tags.length ? `<div class="d-section"><h4>标签</h4><div class="d-tags">${s.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div></div>` : ''}
+    ${s.docs ? `<div class="d-section">
+      <h4>${ICONS.book} 使用文档 / 教程</h4>
+      <a class="doc-callout" href="${esc(s.docs)}" target="_blank" rel="noopener">
+        <span class="dc-ico">${ICONS.book}</span>
+        <span class="dc-body"><b>去这里看文档</b><small>${esc(s.docs)}</small></span>
+        <span class="dc-go">${ICONS.external}</span>
+      </a>
+      <div class="doc-hint">${isTool ? '新手建议先看文档中的「快速开始 / 安装配置」章节，再回到这里下载。' : '仓库 README 含安装、用法与示例，是从零上手的第一站。'}</div>
+    </div>` : ''}
     <div class="d-section">
       <h4>${isTool ? '获取方式' : '快速开始'}</h4>
       <div class="d-actions">
@@ -523,11 +536,21 @@ function openDrawer(id: string) {
         <button id="copybtn" title="复制">${ICONS.copy}</button>
       </div>
     </div>
+    ${s.alts && s.alts.length ? `<div class="d-section">
+      <h4>${ICONS.swap} 备选工具 · 同类可替换 (${s.alts.length})</h4>
+      <div class="alt-list">
+        ${s.alts.map((a) => `<button class="alt-item" data-alt="${esc(a.id)}"><span class="alt-ico">${ICONS.swap}</span><span>${esc(a.name)}</span><span class="alt-go">${ICONS.chevron}</span></button>`).join('')}
+      </div>
+      <div class="doc-hint">点击备选可查看它的文档、平台与下载方式，对比后选最适合自己的。</div>
+    </div>` : ''}
   `;
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('dclose')!.addEventListener('click', closeDrawer);
   document.getElementById('copybtn')!.addEventListener('click', () => copy(isTool ? s.url : s.install));
+  drawer.querySelectorAll<HTMLElement>('[data-alt]').forEach((el) => {
+    el.addEventListener('click', () => openDrawer(el.dataset.alt!));
+  });
 }
 
 function closeDrawer() {
@@ -539,7 +562,16 @@ overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDrawer
 
 // Plain left click opens the detail drawer; modifier click keeps native new-tab behavior.
 document.addEventListener('click', (e) => {
-  const card = (e.target as HTMLElement).closest<HTMLElement>('.card');
+  const t = e.target as HTMLElement;
+  // "文档" quick-link inside a card: open docs, never the drawer.
+  const docLink = t.closest<HTMLElement>('[data-docs]');
+  if (docLink) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(docLink.dataset.docs!, '_blank', 'noopener');
+    return;
+  }
+  const card = t.closest<HTMLElement>('.card');
   if (!card) return;
   if (e.metaKey || e.ctrlKey || e.shiftKey) return;
   e.preventDefault();
