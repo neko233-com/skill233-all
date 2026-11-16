@@ -23,9 +23,10 @@
 5. 本机存在强制 HTTP(S) 代理，会让 Cloudflare API / wrangler 返回 500/522。执行任何 wrangler 或 Cloudflare API 操作前，**必须**先清除代理变量并指定已登录的 wrangler 配置目录：
    ```bash
    unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy
-   export XDG_CONFIG_HOME="/c/Users/luohaojun/AppData/Roaming/xdg.config"
+   export XDG_CONFIG_HOME="/c/Users/14170"
    ```
-6. 当前 Cloudflare OAuth token 仅具 `zone:read`、`pages:write` 等 scope，**无 DNS 写入权限**。自定义域名 `skill.neko233.com` / `skills.neko233.com` 需要 `CNAME → skill233-all.pages.dev`（proxied）才能通过验证；此 CNAME 必须由具备 DNS:Edit 权限的人手动添加，不得假设 token 能自建。
+   （wrangler 会拼接 `.wrangler/config`，登录态实际位于 `/c/Users/14170/.wrangler/config/default.toml`。若 OAuth 已过期或 refreshtoken 失效，需先重新 `npx wrangler login`，或提供具备 Cloudflare Pages:Edit 权限的 API Token 并用 `CLOUDFLARE_API_TOKEN` 传入，不得改用 CI 发布。）
+6. Cloudflare OAuth token 只具 `zone:read`、`pages:write` 等 scope，**无 DNS 写入权限**。自定义域名 `skill.neko233.com` / `skills.neko233.com` 需要 `CNAME → skill233-all.pages.dev`（proxied）才能通过验证；此 CNAME 必须由具备 DNS:Edit 权限的人手动添加，不得假设 token 能自建。
 
 ## 强制：数据与分类
 

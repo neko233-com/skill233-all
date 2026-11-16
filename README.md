@@ -128,7 +128,7 @@ curl -X POST \
 
 - 域名状态：`initializing → pending → active`；CNAME 就绪后 HTTP 验证与 SSL 签发自动完成。
 - 验证阶段用 `https://skill233-all.pages.dev` 访问不受影响。
-- 本环境存在强制 HTTP(S) 代理，会导致 Cloudflare API 返回 500/522；运行 `wrangler` 或 CF API 前需 `unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy`，并 `export XDG_CONFIG_HOME="/c/Users/luohaojun/AppData/Roaming/xdg.config"`。
+- 本环境存在强制 HTTP(S) 代理，会导致 Cloudflare API 返回 500/522；运行 `wrangler` 或 CF API 前需 `unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy`，并 `export XDG_CONFIG_HOME="/c/Users/14170"`（wrangler 拼接 `.wrangler/config`，登录态在 `~/.wrangler/config/default.toml`）。若 OAuth 已过期，需先 `npx wrangler login` 或提供具备 Cloudflare Pages:Edit 权限的 `CLOUDFLARE_API_TOKEN`。
 
 ## 契约与验证
 
