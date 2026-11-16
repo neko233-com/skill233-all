@@ -3,20 +3,31 @@ import catalog from './data/catalog.json';
 import index from './data/search-index.json';
 import meta from './data/meta.json';
 import { SearchEngine } from './search';
-import type { Skill, Category, Meta, SearchIndex } from './types';
+import type { Skill, Category, Group, Meta, SearchIndex } from './types';
 
 const skills = catalog as Skill[];
 const metaData = meta as Meta;
 const categories = metaData.categories;
+const groups = metaData.groups;
 const engine = new SearchEngine(skills, index as SearchIndex);
 
 const catById = new Map<string, Category>(categories.map((c) => [c.id, c]));
+const groupById = new Map<string, Group>(groups.map((g) => [g.id, g]));
+const domainByGroup = new Map<string, Category[]>();
+for (const c of categories) {
+  const arr = domainByGroup.get(c.group) || [];
+  arr.push(c);
+  domainByGroup.set(c.group, arr);
+}
 
 const state = {
   query: '',
+  group: 'all',
   category: 'all',
+  subGroup: 'all',
   source: 'all',
   sort: 'smart',
+  collapsed: new Set<string>(),
 };
 
 /* ----------------------------- icons ----------------------------- */
@@ -28,6 +39,8 @@ const ICONS = {
   external: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>`,
   copy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></svg>`,
   docs: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M14 4v6h6"/></svg>`,
+  menu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>`,
+  chevron: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`,
 };
 
 function esc(s: string): string {
@@ -43,9 +56,9 @@ function fmtStars(n: number): string {
 function langColor(lang: string): string {
   const map: Record<string, string> = {
     TypeScript: '#3178c6', JavaScript: '#f1e05a', Python: '#3572A5', Go: '#00ADD8',
-    Rust: '#dea584', Shell: '#89e051', Python2: '#3572A5', Java: '#b07219',
-    Kotlin: '#A97BFF', Csharp: '#178600', 'C#': '#178600', Ruby: '#701516',
-    HTML: '#e34c26', CSS: '#563d7c', Swift: '#F05138', Dart: '#00B4AB',
+    Rust: '#dea584', Shell: '#89e051', Java: '#b07219', Kotlin: '#A97BFF',
+    'C#': '#178600', Ruby: '#701516', HTML: '#e34c26', CSS: '#563d7c',
+    Swift: '#F05138', Dart: '#00B4AB', Cpp: '#f34b7d', 'C++': '#f34b7d',
   };
   return map[lang] || '#666';
 }
@@ -54,7 +67,8 @@ function langColor(lang: string): string {
 const app = document.getElementById('app')!;
 app.innerHTML = `
   <header class="top">
-    <div class="wrap top-inner">
+    <div class="top-inner">
+      <button class="menu-btn" id="menu-btn" aria-label="打开领域导航">${ICONS.menu}</button>
       <a class="brand" href="#" aria-label="skill233 home">
         <span class="brand-mark">${ICONS.triangle}</span>
         <span>skill233</span>
@@ -62,59 +76,55 @@ app.innerHTML = `
         <small>Agent Skill 超链接中心</small>
       </a>
       <div class="top-spacer"></div>
-      <div class="top-stat"><b>${metaData.total}</b> skills · <b>${categories.length}</b> 领域</div>
+      <div class="top-stat"><b>${metaData.total}</b> skills · <b>${groups.length}</b> 分组 · <b>${categories.length}</b> 领域</div>
       <a class="btn-ghost" href="https://github.com/neko233-com/skill233-all" target="_blank" rel="noopener">
         ${ICONS.github} GitHub
       </a>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="wrap">
-        <div class="hero-badge"><span class="dot"></span> 纯静态 · 毫秒检索 · 每日更新</div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="scrim" id="scrim"></div>
+    <main class="main">
+      <section class="hero">
+        <div class="hero-badge"><span class="dot"></span> 纯静态 · 毫秒检索 · 分组浏览 · 每日更新</div>
         <h1>找到好用的 <span class="dim">Agent Skill</span></h1>
-        <p>收录 <b>neko233 自用技能</b> 与 <b>业内优质 Skill</b>，按业务领域分类，<b>一键直达</b>源仓库。</p>
+        <p>收录 <b>neko233 自用技能</b> 与 <b>业内优质 Skill</b>，按 <b>分组 → 领域 → 子分组</b> 组织，<b>一键直达</b>源仓库。</p>
         <div class="searchbox" id="searchbox">
           <span class="s-icon">${ICONS.search}</span>
-          <input id="q" type="text" placeholder="搜索 skill、领域、作者、关键词…  例如：游戏 / design / game-design / security" autocomplete="off" spellcheck="false" />
+          <input id="q" type="text" placeholder="搜索 skill、领域、作者、关键词…  例如：法律 / 游戏 / design / contract" autocomplete="off" spellcheck="false" />
           <div class="kbd"><kbd>⌘</kbd><kbd>K</kbd></div>
           <button class="clear" id="clear" title="清除">✕</button>
         </div>
         <div class="search-meta" id="search-meta"></div>
-      </div>
-    </section>
+      </section>
 
-    <section class="wrap filters">
-      <div class="filter-row" id="source-row">
-        <span class="filter-label">来源</span>
-      </div>
-      <div class="filter-row" id="cat-row">
-        <span class="filter-label">领域</span>
-      </div>
-    </section>
+      <section class="browser">
+        <div class="subrow-wrap" id="subrow-wrap">
+          <div class="subrow" id="subrow"></div>
+        </div>
+        <div class="results-head">
+          <h2 id="results-title"></h2>
+          <select class="sort-select" id="sort" aria-label="排序">
+            <option value="smart">智能排序</option>
+            <option value="stars">Star 数</option>
+            <option value="recent">最近更新</option>
+            <option value="name">名称</option>
+          </select>
+        </div>
+        <div id="grid-host"></div>
+      </section>
 
-    <section class="wrap">
-      <div class="results-head">
-        <h2 id="results-title"></h2>
-        <select class="sort-select" id="sort" aria-label="排序">
-          <option value="smart">智能排序</option>
-          <option value="stars">Star 数</option>
-          <option value="recent">最近更新</option>
-          <option value="name">名称</option>
-        </select>
-      </div>
-      <div class="grid" id="grid"></div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap foot-inner">
-      <div class="foot-brand">${ICONS.triangle} skill233</div>
-      <div class="foot-note">数据采集自 GitHub · 生成于 ${esc(metaData.generatedAt.slice(0, 10))} · 无后端纯前端</div>
-      <div><a href="https://github.com/neko233-com" target="_blank" rel="noopener">neko233-com</a> · <a href="https://skill.neko233.com" target="_blank" rel="noopener">skill.neko233.com</a></div>
-    </div>
-  </footer>
+      <footer>
+        <div class="foot-inner">
+          <div class="foot-brand">${ICONS.triangle} skill233</div>
+          <div class="foot-note">数据采集自 GitHub · 生成于 ${esc(metaData.generatedAt.slice(0, 10))} · 无后端纯前端</div>
+          <div><a href="https://github.com/neko233-com" target="_blank" rel="noopener">neko233-com</a> · <a href="https://skill.neko233.com" target="_blank" rel="noopener">skill.neko233.com</a></div>
+        </div>
+      </footer>
+    </main>
+  </div>
 
   <div class="overlay" id="overlay">
     <aside class="drawer" id="drawer"></aside>
@@ -122,53 +132,81 @@ app.innerHTML = `
   <div class="toast" id="toast">已复制</div>
 `;
 
-/* ----------------------------- filter chips ----------------------------- */
-const sourceChips: { id: string; label: string }[] = [
-  { id: 'all', label: '全部' },
-  { id: 'featured', label: '精选' },
-  { id: 'mine', label: '我的' },
-  { id: 'curated', label: '业内' },
+/* ----------------------------- sidebar ----------------------------- */
+const sidebar = document.getElementById('sidebar')!;
+const QUICK = [
+  { id: 'all', label: '全部技能', icon: '⊞' },
+  { id: 'featured', label: '精选', icon: '✦' },
+  { id: 'mine', label: '我的', icon: '◉' },
+  { id: 'curated', label: '业内', icon: '◎' },
 ];
-const sourceRow = document.getElementById('source-row')!;
-for (const s of sourceChips) {
-  const b = document.createElement('button');
-  b.className = 'chip' + (s.id === state.source ? ' active' : '');
-  b.dataset.source = s.id;
-  b.textContent = s.label;
-  sourceRow.appendChild(b);
+
+function renderSidebar() {
+  const quick = QUICK.map((q) => `
+    <button class="side-quick ${state.source === q.id && state.group === 'all' && state.category === 'all' ? 'active' : ''}"
+            data-source="${q.id}">
+      <span class="sq-ico">${q.icon}</span><span class="sq-label">${q.label}</span>
+      <span class="sq-cnt">${q.id === 'all' ? metaData.total : q.id === 'mine' ? metaData.mine : q.id === 'curated' ? metaData.curated : skills.filter((s) => s.featured).length}</span>
+    </button>`).join('');
+
+  const groupHTML = groups.map((g) => {
+    const isGroupActive = state.group === g.id && state.category === 'all';
+    const collapsed = state.collapsed.has(g.id);
+    const domains = domainByGroup.get(g.id) || [];
+    const items = domains.map((d) => `
+      <button class="side-domain ${state.category === d.id ? 'active' : ''}" data-domain="${d.id}" title="${esc(d.label)}">
+        <span class="sd-ico">${d.icon}</span><span class="sd-label">${esc(d.label)}</span>
+        <span class="sd-cnt">${d.count}</span>
+      </button>`).join('');
+    return `
+      <div class="side-group ${isGroupActive ? 'group-active' : ''}">
+        <div class="sg-head">
+          <button class="sg-main ${isGroupActive ? 'active' : ''}" data-group="${g.id}" title="${esc(g.desc)}">
+            <span class="sg-ico">${g.icon}</span>
+            <span class="sg-label">${esc(g.label)}</span>
+            <span class="sg-cnt">${g.count}</span>
+          </button>
+          <button class="sg-toggle ${collapsed ? 'collapsed' : ''}" data-toggle="${g.id}" aria-label="折叠/展开">${ICONS.chevron}</button>
+        </div>
+        <div class="sg-items ${collapsed ? 'hidden' : ''}">${items}</div>
+      </div>`;
+  }).join('');
+
+  sidebar.innerHTML = `
+    <div class="side-section-label">浏览</div>
+    <div class="side-quicks">${quick}</div>
+    <div class="side-section-label side-section-gap">领域分组</div>
+    <nav class="side-groups">${groupHTML}</nav>
+    <div class="side-foot">${categories.length} 个领域 · ${Object.keys(metaData.subCounts).length} 个子分组</div>
+  `;
 }
 
-const catRow = document.getElementById('cat-row')!;
-function renderCatChips() {
-  catRow.querySelectorAll('.chip').forEach((el) => el.remove());
-  const add = (id: string, label: string, icon: string, cnt: number) => {
-    const b = document.createElement('button');
-    b.className = 'chip' + (id === state.category ? ' active' : '');
-    b.dataset.cat = id;
-    b.innerHTML = `<span class="ico">${icon}</span>${esc(label)}<span class="cnt">${cnt}</span>`;
-    catRow.appendChild(b);
-  };
-  add('all', '全部领域', '⊞', skills.length);
-  for (const c of categories) {
-    add(c.id, c.label, c.icon, metaData.counts[c.id] || 0);
+/* ----------------------------- sub-group chips ----------------------------- */
+const subrow = document.getElementById('subrow')!;
+function renderSubRow() {
+  const cat = state.category !== 'all' ? catById.get(state.category) : undefined;
+  const grp = state.group !== 'all' ? groupById.get(state.group) : undefined;
+
+  if (cat) {
+    const chips = [{ id: 'all', label: '全部子分组', count: cat.count }, ...cat.subs.map((s) => ({ id: s.id, label: s.label, count: s.count }))];
+    subrow.innerHTML = `<span class="sub-label">${cat.icon} ${esc(cat.label)}</span>` + chips.map((s) => `
+      <button class="sub-chip ${state.subGroup === s.id ? 'active' : ''}" data-sub="${s.id}">
+        ${esc(s.label)}<span class="sc-cnt">${s.count}</span>
+      </button>`).join('');
+  } else if (grp) {
+    const domains = domainByGroup.get(grp.id) || [];
+    subrow.innerHTML = `<span class="sub-label">${grp.icon} ${esc(grp.label)}</span>` +
+      domains.map((d) => `<button class="sub-chip" data-domain="${d.id}">${d.icon} ${esc(d.label)}<span class="sc-cnt">${d.count}</span></button>`).join('');
+  } else {
+    subrow.innerHTML = `<span class="sub-label">按分组浏览</span>` + groups.map((g) => `
+      <button class="sub-chip" data-group="${g.id}">${g.icon} ${esc(g.label)}<span class="sc-cnt">${g.count}</span></button>`).join('');
   }
 }
-renderCatChips();
 
-/* ----------------------------- render grid ----------------------------- */
-const grid = document.getElementById('grid')!;
-const resultsTitle = document.getElementById('results-title')!;
-const searchMeta = document.getElementById('search-meta')!;
-const searchbox = document.getElementById('searchbox')!;
-const qEl = document.getElementById('q') as HTMLInputElement;
-
-function currentResults(): Skill[] {
-  const list = engine.search(state.query, state.category, state.source);
-  const sorted = [...list];
-  if (state.sort === 'stars') sorted.sort((a, b) => b.stars - a.stars);
-  else if (state.sort === 'recent') sorted.sort((a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
-  else if (state.sort === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name));
-  return sorted;
+/* ----------------------------- cards ----------------------------- */
+function subLabel(s: Skill): string {
+  const d = catById.get(s.category);
+  return d?.subs.find((x) => x.id === s.subGroup)?.label || '';
 }
 
 function cardHTML(s: Skill): string {
@@ -184,7 +222,11 @@ function cardHTML(s: Skill): string {
         </div>
       </div>
       <div class="card-desc">${esc(s.descriptionZh || s.description || '—')}</div>
-      <div class="card-tags">${s.tags.slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>
+      <div class="card-tags">
+        <span class="tag tag-domain">${cat?.icon || ''} ${esc(cat?.label || '')}</span>
+        <span class="tag">${esc(subLabel(s))}</span>
+        ${s.tags.slice(0, 2).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}
+      </div>
       <div class="card-foot">
         <span class="star">${ICONS.star} ${fmtStars(s.stars)}</span>
         ${s.language ? `<span class="lang"><span class="lang-dot" style="background:${langColor(s.language)}"></span>${esc(s.language)}</span>` : ''}
@@ -193,38 +235,167 @@ function cardHTML(s: Skill): string {
     </a>`;
 }
 
+function currentResults(): Skill[] {
+  const list = engine.search(state.query, {
+    group: state.group, category: state.category, subGroup: state.subGroup, source: state.source,
+  });
+  const sorted = [...list];
+  if (state.sort === 'stars') sorted.sort((a, b) => b.stars - a.stars);
+  else if (state.sort === 'recent') sorted.sort((a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
+  else if (state.sort === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name));
+  return sorted;
+}
+
+const gridHost = document.getElementById('grid-host')!;
+const resultsTitle = document.getElementById('results-title')!;
+const searchMeta = document.getElementById('search-meta')!;
+const searchbox = document.getElementById('searchbox')!;
+const qEl = document.getElementById('q') as HTMLInputElement;
+
+const HOME_LIMIT = 9;
+
+function renderHome(list: Skill[]) {
+  // Grouped sections for the default, unfiltered browse experience.
+  const byDomain = new Map<string, Skill[]>();
+  for (const s of list) {
+    const arr = byDomain.get(s.category) || [];
+    arr.push(s);
+    byDomain.set(s.category, arr);
+  }
+  const ordered = categories.filter((c) => byDomain.has(c.id));
+  const sections = ordered.map((c) => {
+    const items = byDomain.get(c.id)!;
+    const shown = items.slice(0, HOME_LIMIT);
+    return `
+      <section class="domain-section" id="domain-${c.id}">
+        <div class="ds-head">
+          <div class="ds-title"><span class="ds-ico">${c.icon}</span><h3>${esc(c.label)}</h3><span class="ds-cnt">${items.length}</span></div>
+          <button class="ds-more" data-domain="${c.id}">查看全部 ${items.length} 个 ${ICONS.chevron}</button>
+        </div>
+        <div class="grid">${shown.map(cardHTML).join('')}</div>
+      </section>`;
+  }).join('');
+  gridHost.innerHTML = sections || `<div class="empty"><div class="e-ico">∅</div><h3>暂无内容</h3></div>`;
+}
+
 function render() {
   const list = currentResults();
-  grid.innerHTML = list.length ? list.map(cardHTML).join('') : `
+  const isHome = !state.query && state.category === 'all' && state.group === 'all' && state.source === 'all';
+
+  if (isHome) renderHome(list);
+  else gridHost.innerHTML = `<div class="grid">${list.length ? list.map(cardHTML).join('') : `
     <div class="empty" style="grid-column:1/-1">
       <div class="e-ico">∅</div>
       <h3>没有匹配的 Skill</h3>
-      <p>换个关键词，或清除筛选条件试试。</p>
-    </div>`;
+      <p>换个关键词，或清除左侧筛选条件试试。</p>
+    </div>`}</div>`;
 
-  const srcLabel = sourceChips.find((s) => s.id === state.source)?.label || '';
-  const catLabel = state.category === 'all' ? '全部领域' : catById.get(state.category)?.label || '';
-  resultsTitle.innerHTML = `${srcLabel} · ${catLabel} — <b>${list.length}</b> 个结果`;
+  const cat = state.category !== 'all' ? catById.get(state.category) : undefined;
+  const grp = state.group !== 'all' ? groupById.get(state.group) : undefined;
+  const sub = cat?.subs.find((s) => s.id === state.subGroup);
+  const srcLabel = QUICK.find((q) => q.id === state.source)?.label || '';
+  let label = '';
+  if (cat) label = `${cat.icon} ${esc(cat.label)}${sub ? ` / ${esc(sub.label)}` : ''}`;
+  else if (grp) label = `${grp.icon} ${esc(grp.label)} · 全部领域`;
+  else label = '全部技能';
+  resultsTitle.innerHTML = `${label} <span class="rt-sep">·</span> <b>${list.length}</b> 个结果`;
+
   searchMeta.innerHTML = state.query.trim()
     ? `检索 “<b>${esc(state.query.trim())}</b>” · 命中 <b>${list.length}</b> 项 · 毫秒级`
-    : `共 <b>${metaData.total}</b> 个 Skill（我的 ${metaData.mine} · 业内 ${metaData.curated}）· 点击卡片直达 GitHub`;
-  renderCatChips();
+    : `共 <b>${metaData.total}</b> 个 Skill · <b>${groups.length}</b> 个分组 · <b>${categories.length}</b> 个领域 · 点击卡片直达 GitHub`;
+
+  renderSidebar();
+  renderSubRow();
+  syncHash();
 }
 
-/* ----------------------------- events ----------------------------- */
-sourceRow.addEventListener('click', (e) => {
-  const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-source]');
-  if (!btn) return;
-  state.source = btn.dataset.source!;
-  sourceRow.querySelectorAll('.chip').forEach((c) => c.classList.toggle('active', c === btn));
+/* ----------------------------- deep links ----------------------------- */
+function stateToHash(): string {
+  if (state.category !== 'all') {
+    return `#/domain/${state.category}${state.subGroup !== 'all' ? `/sub/${state.subGroup}` : ''}`;
+  }
+  if (state.group !== 'all') return `#/group/${state.group}`;
+  if (state.source !== 'all') return `#/source/${state.source}`;
+  return '#/all';
+}
+
+function syncHash() {
+  const h = stateToHash();
+  if (location.hash !== h) history.replaceState(null, '', h);
+}
+
+function applyHash() {
+  const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  state.group = 'all'; state.category = 'all'; state.subGroup = 'all'; state.source = 'all';
+  if (parts[0] === 'domain' && catById.has(parts[1])) {
+    const d = catById.get(parts[1])!;
+    state.category = d.id; state.group = d.group;
+    if (parts[2] === 'sub' && d.subs.some((s) => s.id === parts[3])) state.subGroup = parts[3];
+  } else if (parts[0] === 'group' && groupById.has(parts[1])) {
+    state.group = parts[1];
+  } else if (parts[0] === 'source' && QUICK.some((q) => q.id === parts[1])) {
+    state.source = parts[1];
+  }
+  closeMobileNav();
   render();
+}
+window.addEventListener('hashchange', applyHash);
+
+/* ----------------------------- events ----------------------------- */
+function selectDomain(id: string) {
+  const d = catById.get(id);
+  if (!d) return;
+  state.category = d.id;
+  state.group = d.group;
+  state.subGroup = 'all';
+  closeMobileNav();
+  render();
+}
+function selectGroup(id: string) {
+  if (!groupById.has(id)) return;
+  state.group = id;
+  state.category = 'all';
+  state.subGroup = 'all';
+  state.collapsed.delete(id);
+  closeMobileNav();
+  render();
+}
+
+sidebar.addEventListener('click', (e) => {
+  const t = e.target as HTMLElement;
+  const toggle = t.closest<HTMLElement>('[data-toggle]');
+  if (toggle) {
+    const id = toggle.dataset.toggle!;
+    if (state.collapsed.has(id)) state.collapsed.delete(id); else state.collapsed.add(id);
+    renderSidebar();
+    return;
+  }
+  const domain = t.closest<HTMLElement>('[data-domain]');
+  if (domain) { selectDomain(domain.dataset.domain!); return; }
+  const group = t.closest<HTMLElement>('[data-group]');
+  if (group) { selectGroup(group.dataset.group!); return; }
+  const src = t.closest<HTMLElement>('[data-source]');
+  if (src) {
+    state.source = src.dataset.source!;
+    state.group = 'all'; state.category = 'all'; state.subGroup = 'all';
+    render();
+  }
 });
 
-catRow.addEventListener('click', (e) => {
-  const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-cat]');
-  if (!btn) return;
-  state.category = btn.dataset.cat!;
-  render();
+subrow.addEventListener('click', (e) => {
+  const t = e.target as HTMLElement;
+  const sub = t.closest<HTMLElement>('[data-sub]');
+  if (sub) { state.subGroup = sub.dataset.sub!; render(); return; }
+  const domain = t.closest<HTMLElement>('[data-domain]');
+  if (domain) { selectDomain(domain.dataset.domain!); return; }
+  const group = t.closest<HTMLElement>('[data-group]');
+  if (group) { selectGroup(group.dataset.group!); }
+});
+
+gridHost.addEventListener('click', (e) => {
+  const t = e.target as HTMLElement;
+  const more = t.closest<HTMLElement>('[data-domain]');
+  if (more) { selectDomain(more.dataset.domain!); return; }
 });
 
 let debounce: number | undefined;
@@ -250,15 +421,24 @@ document.getElementById('clear')!.addEventListener('click', () => {
 
 document.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-    e.preventDefault();
-    qEl.focus();
-    qEl.select();
+    e.preventDefault(); qEl.focus(); qEl.select();
   }
   if (e.key === 'Escape') {
     if (overlay.classList.contains('open')) closeDrawer();
-    else if (document.activeElement === qEl) { qEl.blur(); }
+    else if (document.body.classList.contains('nav-open')) closeMobileNav();
+    else if (document.activeElement === qEl) qEl.blur();
   }
 });
+
+/* ----------------------------- mobile nav ----------------------------- */
+const menuBtn = document.getElementById('menu-btn')!;
+const scrim = document.getElementById('scrim')!;
+function openMobileNav() { document.body.classList.add('nav-open'); }
+function closeMobileNav() { document.body.classList.remove('nav-open'); }
+menuBtn.addEventListener('click', () => {
+  document.body.classList.contains('nav-open') ? closeMobileNav() : openMobileNav();
+});
+scrim.addEventListener('click', closeMobileNav);
 
 /* ----------------------------- drawer ----------------------------- */
 const overlay = document.getElementById('overlay')!;
@@ -286,6 +466,8 @@ function openDrawer(id: string) {
   const s = skills.find((x) => x.id === id);
   if (!s) return;
   const cat = catById.get(s.category);
+  const grp = groupById.get(s.group);
+  const sub = cat?.subs.find((x) => x.id === s.subGroup);
   drawer.innerHTML = `
     <button class="drawer-close" id="dclose" aria-label="关闭">✕</button>
     <div class="d-head">
@@ -293,7 +475,7 @@ function openDrawer(id: string) {
       <div>
         <div class="d-name">${esc(s.name)}</div>
         <div class="d-full">${esc(s.fullName)}</div>
-        <div class="d-cat">${cat?.icon || '📦'} ${esc(cat?.label || '其他')} ${s.isSkill ? '· Skill' : ''}</div>
+        <div class="d-cat">${grp?.icon || ''} ${esc(grp?.label || '')} / ${cat?.icon || ''} ${esc(cat?.label || '')} / ${esc(sub?.label || '综合')}</div>
       </div>
     </div>
     <div class="d-stats">
@@ -332,14 +514,13 @@ function closeDrawer() {
 
 overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDrawer(); });
 
-// Card click opens drawer but keeps native "open in new tab" via modifier/middle click.
-grid.addEventListener('click', (e) => {
+// Plain left click opens the detail drawer; modifier click keeps native new-tab behavior.
+document.addEventListener('click', (e) => {
   const card = (e.target as HTMLElement).closest<HTMLElement>('.card');
   if (!card) return;
-  // Plain left click: open detail drawer; ctrl/cmd click keeps native new-tab behavior.
   if (e.metaKey || e.ctrlKey || e.shiftKey) return;
   e.preventDefault();
   openDrawer(card.dataset.id!);
 });
 
-render();
+applyHash();

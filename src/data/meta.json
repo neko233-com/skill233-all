@@ -1,101 +1,1159 @@
 {
-  "generatedAt": "2026-11-16T08:32:32.568Z",
-  "total": 339,
-  "mine": 313,
-  "curated": 26,
-  "categories": [
+  "generatedAt": "2026-11-16T08:52:31.711Z",
+  "total": 438,
+  "mine": 314,
+  "curated": 124,
+  "groups": [
     {
-      "id": "ai-agent",
-      "label": "AI / Agent",
-      "icon": "🤖",
-      "color": "#8b7cff"
+      "id": "ai",
+      "label": "AI 智能",
+      "icon": "◈",
+      "desc": "Agent · 大模型 · Prompt · RAG",
+      "count": 34
+    },
+    {
+      "id": "dev",
+      "label": "软件工程",
+      "icon": "⌘",
+      "desc": "前后端 · 工具 · 运维 · 数据 · 安全",
+      "count": 203
     },
     {
       "id": "game",
-      "label": "游戏开发",
+      "label": "游戏",
       "icon": "🎮",
-      "color": "#ff7a9c"
+      "desc": "开发 · 策划 · 美术 · 运营",
+      "count": 69
     },
     {
-      "id": "design",
-      "label": "设计 / UX",
-      "icon": "🎨",
-      "color": "#ffb454"
+      "id": "creative",
+      "label": "设计创意",
+      "icon": "✦",
+      "desc": "设计 · 内容 · 视频 · 写作 · 音乐",
+      "count": 64
+    },
+    {
+      "id": "pro",
+      "label": "专业领域",
+      "icon": "§",
+      "desc": "法律 · 金融 · 医疗 · 教育 · 研究 · 营销",
+      "count": 48
+    },
+    {
+      "id": "life",
+      "label": "效率生活",
+      "icon": "⚡",
+      "desc": "效率 · 学习 · 其他",
+      "count": 20
+    }
+  ],
+  "categories": [
+    {
+      "id": "ai-agent",
+      "label": "AI / Agent 技能",
+      "icon": "🤖",
+      "group": "ai",
+      "subs": [
+        {
+          "id": "framework",
+          "label": "框架与方法论",
+          "kw": {},
+          "count": 10
+        },
+        {
+          "id": "collection",
+          "label": "精选清单",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "engineering",
+          "label": "工程实践",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 6
+        }
+      ],
+      "count": 18
+    },
+    {
+      "id": "prompt",
+      "label": "Prompt / 上下文工程",
+      "icon": "💬",
+      "group": "ai",
+      "subs": [
+        {
+          "id": "prompt-lib",
+          "label": "提示词库",
+          "kw": {},
+          "count": 5
+        },
+        {
+          "id": "context",
+          "label": "上下文工程",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 5
+    },
+    {
+      "id": "rag",
+      "label": "RAG / 知识库",
+      "icon": "🗄️",
+      "group": "ai",
+      "subs": [
+        {
+          "id": "engine",
+          "label": "RAG 引擎",
+          "kw": {},
+          "count": 9
+        },
+        {
+          "id": "knowledge",
+          "label": "知识图谱",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "technique",
+          "label": "技术教程",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 10
+    },
+    {
+      "id": "llm-app",
+      "label": "大模型应用",
+      "icon": "🧠",
+      "group": "ai",
+      "subs": [
+        {
+          "id": "app",
+          "label": "应用合集",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "multimodal",
+          "label": "多模态",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 1
+    },
+    {
+      "id": "frontend",
+      "label": "前端开发",
+      "icon": "🌐",
+      "group": "dev",
+      "subs": [
+        {
+          "id": "ui-system",
+          "label": "组件 / 设计系统",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "framework",
+          "label": "框架 / 构建",
+          "kw": {},
+          "count": 10
+        },
+        {
+          "id": "coderskill",
+          "label": "编码技能",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 12
+    },
+    {
+      "id": "backend",
+      "label": "后端 / API",
+      "icon": "⚙️",
+      "group": "dev",
+      "subs": [
+        {
+          "id": "api",
+          "label": "API 设计",
+          "kw": {},
+          "count": 13
+        },
+        {
+          "id": "service",
+          "label": "服务框架",
+          "kw": {},
+          "count": 15
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 28
     },
     {
       "id": "devtools",
       "label": "开发工具",
       "icon": "🛠️",
-      "color": "#4dd4ac"
+      "group": "dev",
+      "subs": [
+        {
+          "id": "cli",
+          "label": "CLI / 终端",
+          "kw": {},
+          "count": 3
+        },
+        {
+          "id": "editor",
+          "label": "编辑器 / IDE",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "generator",
+          "label": "生成器 / 工具箱",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 6
     },
     {
-      "id": "content",
-      "label": "内容创作",
-      "icon": "✍️",
-      "color": "#f278c8"
-    },
-    {
-      "id": "efficiency",
-      "label": "效率工具",
-      "icon": "⚡",
-      "color": "#ffd166"
-    },
-    {
-      "id": "security",
-      "label": "安全",
-      "icon": "🔒",
-      "color": "#ff6b6b"
+      "id": "devops",
+      "label": "运维 / DevOps",
+      "icon": "🌐",
+      "group": "dev",
+      "subs": [
+        {
+          "id": "cloud",
+          "label": "云原生 / 基础设施",
+          "kw": {},
+          "count": 6
+        },
+        {
+          "id": "observe",
+          "label": "可观测 / SRE",
+          "kw": {},
+          "count": 4
+        },
+        {
+          "id": "automation",
+          "label": "自动化 / CI",
+          "kw": {},
+          "count": 27
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 6
+        }
+      ],
+      "count": 43
     },
     {
       "id": "data",
       "label": "数据 / 数据库",
       "icon": "🗄️",
-      "color": "#54b9ff"
+      "group": "dev",
+      "subs": [
+        {
+          "id": "database",
+          "label": "数据库 / 引擎",
+          "kw": {},
+          "count": 25
+        },
+        {
+          "id": "text2sql",
+          "label": "Text-to-SQL",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "analysis",
+          "label": "数据分析",
+          "kw": {},
+          "count": 7
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 7
+        }
+      ],
+      "count": 39
     },
     {
-      "id": "devops",
-      "label": "运维 / 网络",
-      "icon": "🌐",
-      "color": "#5ad1e6"
-    },
-    {
-      "id": "desktop",
-      "label": "客户端 / 桌面",
-      "icon": "🖥️",
-      "color": "#a0a4ff"
+      "id": "security",
+      "label": "网络安全",
+      "icon": "🔒",
+      "group": "dev",
+      "subs": [
+        {
+          "id": "offense",
+          "label": "渗透 / 红队",
+          "kw": {},
+          "count": 9
+        },
+        {
+          "id": "ai-sec",
+          "label": "AI 安全",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "defense",
+          "label": "防护 / 合规",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 10
     },
     {
       "id": "language",
       "label": "语言 / 框架",
       "icon": "🧩",
-      "color": "#9be15d"
+      "group": "dev",
+      "subs": [
+        {
+          "id": "lib",
+          "label": "库 / SDK",
+          "kw": {},
+          "count": 35
+        },
+        {
+          "id": "toolchain",
+          "label": "语言 / 编译器",
+          "kw": {},
+          "count": 16
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 51
+    },
+    {
+      "id": "desktop",
+      "label": "客户端 / 桌面",
+      "icon": "🖥️",
+      "group": "dev",
+      "subs": [
+        {
+          "id": "cross",
+          "label": "跨平台",
+          "kw": {},
+          "count": 8
+        },
+        {
+          "id": "mobile",
+          "label": "移动 / Android",
+          "kw": {},
+          "count": 5
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 14
+    },
+    {
+      "id": "game-dev",
+      "label": "游戏开发",
+      "icon": "🎮",
+      "group": "game",
+      "subs": [
+        {
+          "id": "engine",
+          "label": "引擎 / 框架",
+          "kw": {},
+          "count": 26
+        },
+        {
+          "id": "toolchain",
+          "label": "开发工具",
+          "kw": {},
+          "count": 7
+        },
+        {
+          "id": "game-ai",
+          "label": "游戏 AI",
+          "kw": {},
+          "count": 4
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 19
+        }
+      ],
+      "count": 56
+    },
+    {
+      "id": "game-design",
+      "label": "策划 / 数值",
+      "icon": "📐",
+      "group": "game",
+      "subs": [
+        {
+          "id": "numerical",
+          "label": "数值 / 系统",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "narrative",
+          "label": "剧情 / 关卡",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 5
+    },
+    {
+      "id": "game-art",
+      "label": "美术 / 动画",
+      "icon": "🎨",
+      "group": "game",
+      "subs": [
+        {
+          "id": "pixel",
+          "label": "像素 / 精灵",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "animation",
+          "label": "动画 / 动效",
+          "kw": {},
+          "count": 5
+        },
+        {
+          "id": "asset",
+          "label": "素材 / 模型",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 7
+    },
+    {
+      "id": "game-ops",
+      "label": "运营 / 增长",
+      "icon": "📈",
+      "group": "game",
+      "subs": [
+        {
+          "id": "channel",
+          "label": "渠道 / 发行",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "community",
+          "label": "社区 / 审核",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "analytics",
+          "label": "数据 / 增长",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 1
+    },
+    {
+      "id": "design",
+      "label": "设计 / UX",
+      "icon": "🎨",
+      "group": "creative",
+      "subs": [
+        {
+          "id": "system",
+          "label": "设计系统",
+          "kw": {},
+          "count": 6
+        },
+        {
+          "id": "ux",
+          "label": "UI / UX",
+          "kw": {},
+          "count": 27
+        },
+        {
+          "id": "visual",
+          "label": "视觉 / 海报",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 34
+    },
+    {
+      "id": "content",
+      "label": "内容创作",
+      "icon": "✍️",
+      "group": "creative",
+      "subs": [
+        {
+          "id": "wechat",
+          "label": "公众号 / 新媒体",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "story",
+          "label": "故事 / IP",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "pipeline",
+          "label": "内容流水线",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 4
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "video",
+      "label": "视频 / 多媒体",
+      "icon": "🎬",
+      "group": "creative",
+      "subs": [
+        {
+          "id": "generation",
+          "label": "视频生成",
+          "kw": {},
+          "count": 7
+        },
+        {
+          "id": "editing",
+          "label": "剪辑 / 工厂",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "script",
+          "label": "分镜 / 脚本",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 7
+    },
+    {
+      "id": "writing",
+      "label": "写作 / 文案",
+      "icon": "📝",
+      "group": "creative",
+      "subs": [
+        {
+          "id": "novel",
+          "label": "小说 / 剧本",
+          "kw": {},
+          "count": 4
+        },
+        {
+          "id": "academic",
+          "label": "学术 / 论文",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "assistant",
+          "label": "写作助手",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "music",
+      "label": "音乐 / 音频",
+      "icon": "🎵",
+      "group": "creative",
+      "subs": [
+        {
+          "id": "generation",
+          "label": "音乐生成",
+          "kw": {},
+          "count": 6
+        },
+        {
+          "id": "tts",
+          "label": "TTS / 语音",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 7
+    },
+    {
+      "id": "translate",
+      "label": "翻译 / 本地化",
+      "icon": "🌍",
+      "group": "creative",
+      "subs": [
+        {
+          "id": "engine",
+          "label": "翻译引擎",
+          "kw": {},
+          "count": 4
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 4
+    },
+    {
+      "id": "legal",
+      "label": "法律",
+      "icon": "⚖️",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "legal-ai",
+          "label": "法律 AI 平台",
+          "kw": {},
+          "count": 3
+        },
+        {
+          "id": "contract",
+          "label": "合同审查",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "legal-kb",
+          "label": "法规 / 知识库",
+          "kw": {},
+          "count": 3
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 8
+    },
+    {
+      "id": "finance",
+      "label": "金融 / 财务",
+      "icon": "💰",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "quant",
+          "label": "量化交易",
+          "kw": {},
+          "count": 5
+        },
+        {
+          "id": "finllm",
+          "label": "金融大模型",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "research",
+          "label": "投研 / 分析",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 8
+    },
+    {
+      "id": "medical",
+      "label": "医疗 / 健康",
+      "icon": "🏥",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "imaging",
+          "label": "医学影像",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "clinical",
+          "label": "临床 / EHR",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 2
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "education",
+      "label": "教育",
+      "icon": "🎓",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "tutor",
+          "label": "AI 导师",
+          "kw": {},
+          "count": 5
+        },
+        {
+          "id": "learning",
+          "label": "学习工具",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "research",
+      "label": "研究 / 学术",
+      "icon": "🔬",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "automation",
+          "label": "科研自动化",
+          "kw": {},
+          "count": 3
+        },
+        {
+          "id": "paper",
+          "label": "论文工具",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 5
+    },
+    {
+      "id": "hr",
+      "label": "招聘 / HR",
+      "icon": "🧑‍💼",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "hiring",
+          "label": "招聘 / 面试",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 1
+    },
+    {
+      "id": "sales",
+      "label": "销售 / CRM",
+      "icon": "🤝",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "crm",
+          "label": "CRM 系统",
+          "kw": {},
+          "count": 4
+        },
+        {
+          "id": "outreach",
+          "label": "获客 / 外呼",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 4
+    },
+    {
+      "id": "realestate",
+      "label": "房地产",
+      "icon": "🏠",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "property",
+          "label": "房产分析",
+          "kw": {},
+          "count": 3
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 3
+    },
+    {
+      "id": "product",
+      "label": "产品 / 运营",
+      "icon": "📊",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "management",
+          "label": "产品管理",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "ops",
+          "label": "运营 / 增长",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 1
+    },
+    {
+      "id": "marketing",
+      "label": "市场营销",
+      "icon": "📣",
+      "group": "pro",
+      "subs": [
+        {
+          "id": "growth",
+          "label": "增长 / 销售",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "seo",
+          "label": "SEO / 内容营销",
+          "kw": {},
+          "count": 3
+        },
+        {
+          "id": "automation",
+          "label": "营销自动化",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 1
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "efficiency",
+      "label": "效率工具",
+      "icon": "⚡",
+      "group": "life",
+      "subs": [
+        {
+          "id": "workflow",
+          "label": "工作流 / 自动化",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "utils",
+          "label": "实用工具",
+          "kw": {},
+          "count": 1
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 0
+        }
+      ],
+      "count": 2
     },
     {
       "id": "learn",
       "label": "学习 / 资料",
       "icon": "📚",
-      "color": "#c3a6ff"
+      "group": "life",
+      "subs": [
+        {
+          "id": "awesome",
+          "label": "精选清单",
+          "kw": {},
+          "count": 2
+        },
+        {
+          "id": "guide",
+          "label": "指南 / 教程",
+          "kw": {},
+          "count": 0
+        },
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 2
+        }
+      ],
+      "count": 4
     },
     {
       "id": "other",
       "label": "其他",
       "icon": "📦",
-      "color": "#9aa0aa"
+      "group": "life",
+      "subs": [
+        {
+          "id": "general",
+          "label": "综合",
+          "count": 14
+        }
+      ],
+      "count": 14
     }
   ],
   "counts": {
-    "other": 13,
-    "design": 35,
-    "data": 37,
-    "ai-agent": 47,
-    "game": 65,
-    "devops": 44,
-    "language": 34,
-    "content": 44,
-    "desktop": 9,
-    "devtools": 2,
-    "security": 6,
-    "efficiency": 1,
-    "learn": 2
+    "design": 34,
+    "other": 14,
+    "language": 51,
+    "data": 39,
+    "education": 6,
+    "ai-agent": 18,
+    "game-dev": 56,
+    "devops": 43,
+    "video": 7,
+    "backend": 28,
+    "game-design": 5,
+    "rag": 10,
+    "learn": 4,
+    "game-art": 7,
+    "frontend": 12,
+    "medical": 6,
+    "desktop": 14,
+    "translate": 4,
+    "devtools": 6,
+    "security": 10,
+    "writing": 6,
+    "music": 7,
+    "finance": 8,
+    "content": 6,
+    "research": 5,
+    "game-ops": 1,
+    "legal": 8,
+    "marketing": 6,
+    "efficiency": 2,
+    "llm-app": 1,
+    "prompt": 5,
+    "product": 1,
+    "hr": 1,
+    "sales": 4,
+    "realestate": 3
+  },
+  "subCounts": {
+    "design/ux": 27,
+    "other/general": 14,
+    "language/toolchain": 16,
+    "data/general": 7,
+    "education/learning": 1,
+    "ai-agent/general": 6,
+    "game-dev/toolchain": 7,
+    "devops/general": 6,
+    "video/generation": 7,
+    "backend/api": 13,
+    "devops/automation": 27,
+    "language/lib": 35,
+    "game-design/narrative": 2,
+    "game-dev/engine": 26,
+    "rag/engine": 9,
+    "learn/general": 2,
+    "game-art/animation": 5,
+    "devops/observe": 4,
+    "frontend/framework": 10,
+    "rag/knowledge": 1,
+    "medical/general": 2,
+    "desktop/mobile": 5,
+    "translate/engine": 4,
+    "backend/service": 15,
+    "devtools/cli": 3,
+    "data/database": 25,
+    "security/defense": 1,
+    "game-dev/general": 19,
+    "desktop/cross": 8,
+    "game-design/general": 1,
+    "data/analysis": 7,
+    "writing/general": 1,
+    "music/generation": 6,
+    "finance/quant": 5,
+    "devtools/general": 1,
+    "devops/cloud": 6,
+    "content/general": 4,
+    "research/paper": 2,
+    "game-ops/channel": 1,
+    "legal/general": 1,
+    "game-dev/game-ai": 4,
+    "game-design/numerical": 2,
+    "security/offense": 9,
+    "finance/finllm": 2,
+    "marketing/general": 1,
+    "education/tutor": 5,
+    "design/general": 1,
+    "efficiency/workflow": 1,
+    "content/pipeline": 1,
+    "desktop/general": 1,
+    "finance/general": 1,
+    "ai-agent/engineering": 1,
+    "ai-agent/framework": 10,
+    "ai-agent/collection": 1,
+    "learn/awesome": 2,
+    "llm-app/app": 1,
+    "prompt/prompt-lib": 5,
+    "frontend/ui-system": 2,
+    "design/system": 6,
+    "devtools/editor": 2,
+    "game-art/pixel": 2,
+    "legal/legal-ai": 3,
+    "legal/legal-kb": 3,
+    "legal/contract": 1,
+    "medical/imaging": 2,
+    "medical/clinical": 2,
+    "research/automation": 3,
+    "marketing/growth": 2,
+    "marketing/seo": 3,
+    "music/tts": 1,
+    "writing/novel": 4,
+    "writing/academic": 1,
+    "content/wechat": 1,
+    "efficiency/utils": 1,
+    "product/management": 1,
+    "hr/hiring": 1,
+    "sales/crm": 4,
+    "realestate/property": 3
+  },
+  "groupCounts": {
+    "creative": 64,
+    "life": 20,
+    "dev": 203,
+    "pro": 48,
+    "ai": 34,
+    "game": 69
   }
 }

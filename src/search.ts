@@ -1,6 +1,17 @@
 import { tokenize } from './lib/tokenize.js';
 import type { Skill, SearchIndex } from './types';
 
+export interface SearchFilters {
+  /** domain id or 'all' */
+  category?: string;
+  /** top-level group id or 'all' */
+  group?: string;
+  /** in-domain sub-group id or 'all' */
+  subGroup?: string;
+  /** 'all' | 'mine' | 'curated' | 'featured' */
+  source?: string;
+}
+
 /**
  * Ultra-fast client-side search over a build-time inverted index.
  * No corpus tokenization at runtime — only the query is tokenized.
@@ -16,7 +27,6 @@ export class SearchEngine {
     this.skills = skills;
     this.index = index;
     this.tokenSet = new Set(index.tokens);
-    // Precompute a log-scaled star bonus so popular repos float up on ties.
     const max = skills.reduce((m, s) => Math.max(m, s.stars), 1) || 1;
     this.starRank = new Float64Array(skills.length);
     skills.forEach((s, i) => {
@@ -26,20 +36,17 @@ export class SearchEngine {
 
   /**
    * @param query raw search string
-   * @param category category id or 'all'
-   * @param source 'all' | 'mine' | 'curated' | 'featured'
+   * @param filters group / category / subGroup / source filters
    */
-  search(query: string, category = 'all', source = 'all'): Skill[] {
+  search(query: string, filters: SearchFilters = {}): Skill[] {
+    const { category = 'all', group = 'all', subGroup = 'all', source = 'all' } = filters;
     const q = query.trim().toLowerCase();
     const scores = new Map<number, number>();
 
     if (q) {
       const terms = tokenize(q);
       const prefixes = new Set<string>();
-      // Exact terms + prefix-expansion (only tokens >= 2 chars to avoid noise).
-      for (const t of terms) {
-        if (t.length >= 2) prefixes.add(t);
-      }
+      for (const t of terms) if (t.length >= 2) prefixes.add(t);
       for (const t of prefixes) {
         for (const tok of this.tokenSet) {
           if (tok.startsWith(t) && tok.length <= 24) {
@@ -75,7 +82,6 @@ export class SearchEngine {
         }
       }
     } else {
-      // No query: score by popularity so the default grid is useful.
       this.skills.forEach((_, i) => scores.set(i, 0));
     }
 
@@ -83,7 +89,9 @@ export class SearchEngine {
     for (const [id, rawScore] of scores) {
       const s = this.skills[id];
       if (!s) continue;
+      if (group !== 'all' && s.group !== group) continue;
       if (category !== 'all' && s.category !== category) continue;
+      if (subGroup !== 'all' && s.subGroup !== subGroup) continue;
       if (source === 'mine' && s.source !== 'mine') continue;
       if (source === 'curated' && s.source !== 'curated') continue;
       if (source === 'featured' && !s.featured) continue;
@@ -97,5 +105,10 @@ export class SearchEngine {
       return b.skill.stars - a.skill.stars;
     });
     return results.map((r) => r.skill);
+  }
+
+  /** Back-compat positional signature used by older callers/tests. */
+  searchLegacy(query: string, category = 'all', source = 'all'): Skill[] {
+    return this.search(query, { category, source });
   }
 }
