@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-16T09:29:33.552Z",
-  "total": 628,
+  "generatedAt": "2026-11-16T12:30:50.594Z",
+  "total": 679,
   "mine": 314,
   "curated": 124,
-  "tools": 190,
+  "tools": 241,
   "groups": [
     {
       "id": "ai",
@@ -17,7 +17,7 @@
       "label": "实用软件",
       "icon": "🧰",
       "desc": "网络 · 浏览器 · 办公 · 影音 · 系统 · AI 助手（小白友好）",
-      "count": 190
+      "count": 241
     },
     {
       "id": "dev",
@@ -605,6 +605,45 @@
         }
       ],
       "count": 5
+    },
+    {
+      "id": "tool-neko",
+      "label": "neko233 专用软件",
+      "icon": "🐈",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "neko-net",
+          "label": "网络 / 代理",
+          "count": 8
+        },
+        {
+          "id": "neko-dev",
+          "label": "开发 / 编译",
+          "count": 10
+        },
+        {
+          "id": "neko-ops",
+          "label": "运维 / 数据",
+          "count": 11
+        },
+        {
+          "id": "neko-desk",
+          "label": "桌面效率",
+          "count": 11
+        },
+        {
+          "id": "neko-media",
+          "label": "媒体 / 创作",
+          "count": 5
+        },
+        {
+          "id": "neko-agent",
+          "label": "AI / Agent",
+          "count": 6
+        }
+      ],
+      "count": 51
     },
     {
       "id": "frontend",
@@ -1529,7 +1568,8 @@
     "tool-mind": 6,
     "tool-cloud": 9,
     "tool-read": 5,
-    "tool-time": 5
+    "tool-time": 5,
+    "tool-neko": 51
   },
   "subCounts": {
     "design/ux": 27,
@@ -1658,7 +1698,13 @@
     "tool-read/read-app": 3,
     "tool-read/read-mgr": 2,
     "tool-time/time-task": 3,
-    "tool-time/time-focus": 2
+    "tool-time/time-focus": 2,
+    "tool-neko/neko-net": 8,
+    "tool-neko/neko-dev": 10,
+    "tool-neko/neko-ops": 11,
+    "tool-neko/neko-desk": 11,
+    "tool-neko/neko-media": 5,
+    "tool-neko/neko-agent": 6
   },
   "groupCounts": {
     "creative": 64,
@@ -1667,6 +1713,6 @@
     "pro": 48,
     "ai": 34,
     "game": 69,
-    "tools": 190
+    "tools": 241
   }
 }

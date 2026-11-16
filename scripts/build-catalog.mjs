@@ -285,7 +285,10 @@ TOOLS.forEach((t, toolIndex) => {
     owner: t.repo ? t.repo.split('/')[0] : '',
     // Cross-listed tools (e.g. Bitwarden in both browser-ext and pass-mgr)
     // need a unique key, otherwise the global fullName dedupe drops them.
-    fullName: t.repo || `${t.name} · ${t.sub}`,
+    // neko233 own tools share the repo name with `mine` entries, so suffix them too.
+    fullName: t.cat === 'tool-neko'
+      ? `${t.repo || t.name} · tool-neko`
+      : (t.repo || `${t.name} · ${t.sub}`),
     url: t.url,
     homepage: t.url,
     description: t.desc,

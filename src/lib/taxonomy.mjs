@@ -207,6 +207,18 @@ export const DOMAINS = [
       { id: 'time-focus', label: '专注 / 计时' },
     ],
   },
+  /* neko233 自研软件：按「代替某主流软件」组织，全部指向 neko233-com 仓库。 */
+  {
+    id: 'tool-neko', label: 'neko233 专用软件', icon: '🐈', group: 'tools',
+    subs: [
+      { id: 'neko-net', label: '网络 / 代理' },
+      { id: 'neko-dev', label: '开发 / 编译' },
+      { id: 'neko-ops', label: '运维 / 数据' },
+      { id: 'neko-desk', label: '桌面效率' },
+      { id: 'neko-media', label: '媒体 / 创作' },
+      { id: 'neko-agent', label: 'AI / Agent' },
+    ],
+  },
 
   /* ---------------------------- 软件工程 ------------------------------- */
   {
