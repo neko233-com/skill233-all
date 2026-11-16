@@ -10,6 +10,7 @@
 /* Top-level groups: broad chapters shown as sections in the left vertical tab. */
 export const GROUPS = [
   { id: 'ai',       label: 'AI 智能',   icon: '◈', desc: 'Agent · 大模型 · Prompt · RAG' },
+  { id: 'tools',    label: '实用软件', icon: '🧰', desc: '网络 · 浏览器 · 办公 · 影音 · 系统 · AI 助手（小白友好）' },
   { id: 'dev',      label: '软件工程', icon: '⌘', desc: '前后端 · 工具 · 运维 · 数据 · 安全' },
   { id: 'game',     label: '游戏',      icon: '🎮', desc: '开发 · 策划 · 美术 · 运营' },
   { id: 'creative', label: '设计创意', icon: '✦', desc: '设计 · 内容 · 视频 · 写作 · 音乐' },
@@ -54,6 +55,99 @@ export const DOMAINS = [
       { id: 'app', label: '应用合集', kw: /app|application|应用|llm-apps/i },
       { id: 'multimodal', label: '多模态', kw: /multimodal|image|vision|audio|多模态/i },
       GENERAL,
+    ],
+  },
+
+  /* ---------------------------- 实用软件 ------------------------------- */
+  /* Software tools for everyone (esp. non-programmers). Entries set their
+     category/subGroup explicitly from tools-data.mjs; no keyword rules. */
+  {
+    id: 'tool-net', label: '网络代理', icon: '🌐', group: 'tools',
+    subs: [
+      { id: 'net-desktop', label: '电脑客户端' },
+      { id: 'net-ios', label: 'iPhone / iPad' },
+      { id: 'net-android', label: '安卓' },
+      { id: 'net-core', label: '跨平台内核' },
+    ],
+  },
+  {
+    id: 'tool-browser', label: '浏览器', icon: '🧭', group: 'tools',
+    subs: [
+      { id: 'browser-main', label: '主流浏览器' },
+      { id: 'browser-privacy', label: '隐私浏览器' },
+      { id: 'browser-ext', label: '必装插件' },
+    ],
+  },
+  {
+    id: 'tool-office', label: '办公协作', icon: '📁', group: 'tools',
+    subs: [
+      { id: 'office-suite', label: '办公套件' },
+      { id: 'office-collab', label: '团队协作' },
+      { id: 'office-doc', label: '文档笔记' },
+    ],
+  },
+  {
+    id: 'tool-media', label: '影音播放', icon: '🎬', group: 'tools',
+    subs: [
+      { id: 'media-player', label: '视频播放器' },
+      { id: 'media-music', label: '音乐平台' },
+    ],
+  },
+  {
+    id: 'tool-download', label: '下载传输', icon: '⬇️', group: 'tools',
+    subs: [{ id: 'dl-manager', label: '下载工具' }],
+  },
+  {
+    id: 'tool-file', label: '文件管理', icon: '🗂️', group: 'tools',
+    subs: [
+      { id: 'file-archive', label: '压缩解压' },
+      { id: 'file-search', label: '搜索 / 空间分析' },
+      { id: 'file-sync', label: '同步备份' },
+    ],
+  },
+  {
+    id: 'tool-system', label: '系统增强', icon: '🛠️', group: 'tools',
+    subs: [
+      { id: 'sys-tune', label: '系统优化' },
+      { id: 'sys-clean', label: '清理安全' },
+    ],
+  },
+  {
+    id: 'tool-privacy', label: '密码与隐私', icon: '🔐', group: 'tools',
+    subs: [
+      { id: 'pass-mgr', label: '密码管理' },
+      { id: 'pass-priv', label: '隐私工具' },
+    ],
+  },
+  {
+    id: 'tool-image', label: '图片工具', icon: '🖼️', group: 'tools',
+    subs: [
+      { id: 'img-capture', label: '截图录屏' },
+      { id: 'img-edit', label: '图片编辑' },
+    ],
+  },
+  {
+    id: 'tool-ai', label: 'AI 助手', icon: '✨', group: 'tools',
+    subs: [
+      { id: 'ai-chat', label: 'AI 对话' },
+      { id: 'ai-image', label: 'AI 绘画' },
+      { id: 'ai-office', label: 'AI 办公' },
+    ],
+  },
+  {
+    id: 'tool-translate', label: '翻译词典', icon: '🌍', group: 'tools',
+    subs: [{ id: 'tr-tool', label: '翻译工具' }],
+  },
+  {
+    id: 'tool-chat', label: '通讯社交', icon: '💬', group: 'tools',
+    subs: [{ id: 'chat-im', label: '即时通讯' }],
+  },
+  {
+    id: 'tool-devstart', label: '编程入门', icon: '💻', group: 'tools',
+    subs: [
+      { id: 'dev-editor', label: '编辑器 / IDE' },
+      { id: 'dev-env', label: '运行环境' },
+      { id: 'dev-db', label: '数据库工具' },
     ],
   },
 

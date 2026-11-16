@@ -8,7 +8,7 @@ export interface SearchFilters {
   group?: string;
   /** in-domain sub-group id or 'all' */
   subGroup?: string;
-  /** 'all' | 'mine' | 'curated' | 'featured' */
+  /** 'all' | 'mine' | 'curated' | 'tool' | 'featured' */
   source?: string;
 }
 
@@ -94,6 +94,7 @@ export class SearchEngine {
       if (subGroup !== 'all' && s.subGroup !== subGroup) continue;
       if (source === 'mine' && s.source !== 'mine') continue;
       if (source === 'curated' && s.source !== 'curated') continue;
+      if (source === 'tool' && s.source !== 'tool') continue;
       if (source === 'featured' && !s.featured) continue;
       const bonus = s.featured ? 2 : 0;
       const score = rawScore + bonus + this.starRank[id] * (q ? 1.5 : 10);

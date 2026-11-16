@@ -1,8 +1,9 @@
 {
-  "generatedAt": "2026-11-16T08:52:31.711Z",
-  "total": 438,
+  "generatedAt": "2026-11-16T09:15:06.933Z",
+  "total": 555,
   "mine": 314,
   "curated": 124,
+  "tools": 117,
   "groups": [
     {
       "id": "ai",
@@ -10,6 +11,13 @@
       "icon": "◈",
       "desc": "Agent · 大模型 · Prompt · RAG",
       "count": 34
+    },
+    {
+      "id": "tools",
+      "label": "实用软件",
+      "icon": "🧰",
+      "desc": "网络 · 浏览器 · 办公 · 影音 · 系统 · AI 助手（小白友好）",
+      "count": 117
     },
     {
       "id": "dev",
@@ -163,6 +171,273 @@
         }
       ],
       "count": 1
+    },
+    {
+      "id": "tool-net",
+      "label": "网络代理",
+      "icon": "🌐",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "net-desktop",
+          "label": "电脑客户端",
+          "count": 5
+        },
+        {
+          "id": "net-ios",
+          "label": "iPhone / iPad",
+          "count": 3
+        },
+        {
+          "id": "net-android",
+          "label": "安卓",
+          "count": 2
+        },
+        {
+          "id": "net-core",
+          "label": "跨平台内核",
+          "count": 3
+        }
+      ],
+      "count": 13
+    },
+    {
+      "id": "tool-browser",
+      "label": "浏览器",
+      "icon": "🧭",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "browser-main",
+          "label": "主流浏览器",
+          "count": 5
+        },
+        {
+          "id": "browser-privacy",
+          "label": "隐私浏览器",
+          "count": 4
+        },
+        {
+          "id": "browser-ext",
+          "label": "必装插件",
+          "count": 4
+        }
+      ],
+      "count": 13
+    },
+    {
+      "id": "tool-office",
+      "label": "办公协作",
+      "icon": "📁",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "office-suite",
+          "label": "办公套件",
+          "count": 3
+        },
+        {
+          "id": "office-collab",
+          "label": "团队协作",
+          "count": 5
+        },
+        {
+          "id": "office-doc",
+          "label": "文档笔记",
+          "count": 5
+        }
+      ],
+      "count": 13
+    },
+    {
+      "id": "tool-media",
+      "label": "影音播放",
+      "icon": "🎬",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "media-player",
+          "label": "视频播放器",
+          "count": 4
+        },
+        {
+          "id": "media-music",
+          "label": "音乐平台",
+          "count": 4
+        }
+      ],
+      "count": 8
+    },
+    {
+      "id": "tool-download",
+      "label": "下载传输",
+      "icon": "⬇️",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "dl-manager",
+          "label": "下载工具",
+          "count": 6
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "tool-file",
+      "label": "文件管理",
+      "icon": "🗂️",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "file-archive",
+          "label": "压缩解压",
+          "count": 3
+        },
+        {
+          "id": "file-search",
+          "label": "搜索 / 空间分析",
+          "count": 3
+        },
+        {
+          "id": "file-sync",
+          "label": "同步备份",
+          "count": 3
+        }
+      ],
+      "count": 9
+    },
+    {
+      "id": "tool-system",
+      "label": "系统增强",
+      "icon": "🛠️",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "sys-tune",
+          "label": "系统优化",
+          "count": 3
+        },
+        {
+          "id": "sys-clean",
+          "label": "清理安全",
+          "count": 3
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "tool-privacy",
+      "label": "密码与隐私",
+      "icon": "🔐",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "pass-mgr",
+          "label": "密码管理",
+          "count": 3
+        },
+        {
+          "id": "pass-priv",
+          "label": "隐私工具",
+          "count": 2
+        }
+      ],
+      "count": 5
+    },
+    {
+      "id": "tool-image",
+      "label": "图片工具",
+      "icon": "🖼️",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "img-capture",
+          "label": "截图录屏",
+          "count": 4
+        },
+        {
+          "id": "img-edit",
+          "label": "图片编辑",
+          "count": 4
+        }
+      ],
+      "count": 8
+    },
+    {
+      "id": "tool-ai",
+      "label": "AI 助手",
+      "icon": "✨",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "ai-chat",
+          "label": "AI 对话",
+          "count": 8
+        },
+        {
+          "id": "ai-image",
+          "label": "AI 绘画",
+          "count": 3
+        },
+        {
+          "id": "ai-office",
+          "label": "AI 办公",
+          "count": 3
+        }
+      ],
+      "count": 14
+    },
+    {
+      "id": "tool-translate",
+      "label": "翻译词典",
+      "icon": "🌍",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "tr-tool",
+          "label": "翻译工具",
+          "count": 6
+        }
+      ],
+      "count": 6
+    },
+    {
+      "id": "tool-chat",
+      "label": "通讯社交",
+      "icon": "💬",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "chat-im",
+          "label": "即时通讯",
+          "count": 5
+        }
+      ],
+      "count": 5
+    },
+    {
+      "id": "tool-devstart",
+      "label": "编程入门",
+      "icon": "💻",
+      "group": "tools",
+      "subs": [
+        {
+          "id": "dev-editor",
+          "label": "编辑器 / IDE",
+          "count": 4
+        },
+        {
+          "id": "dev-env",
+          "label": "运行环境",
+          "count": 4
+        },
+        {
+          "id": "dev-db",
+          "label": "数据库工具",
+          "count": 3
+        }
+      ],
+      "count": 11
     },
     {
       "id": "frontend",
@@ -1066,7 +1341,20 @@
     "product": 1,
     "hr": 1,
     "sales": 4,
-    "realestate": 3
+    "realestate": 3,
+    "tool-net": 13,
+    "tool-browser": 13,
+    "tool-office": 13,
+    "tool-media": 8,
+    "tool-download": 6,
+    "tool-file": 9,
+    "tool-system": 6,
+    "tool-privacy": 5,
+    "tool-image": 8,
+    "tool-ai": 14,
+    "tool-translate": 6,
+    "tool-chat": 5,
+    "tool-devstart": 11
   },
   "subCounts": {
     "design/ux": 27,
@@ -1146,7 +1434,37 @@
     "product/management": 1,
     "hr/hiring": 1,
     "sales/crm": 4,
-    "realestate/property": 3
+    "realestate/property": 3,
+    "tool-net/net-desktop": 5,
+    "tool-net/net-ios": 3,
+    "tool-net/net-android": 2,
+    "tool-net/net-core": 3,
+    "tool-browser/browser-main": 5,
+    "tool-browser/browser-privacy": 4,
+    "tool-browser/browser-ext": 4,
+    "tool-office/office-suite": 3,
+    "tool-office/office-collab": 5,
+    "tool-office/office-doc": 5,
+    "tool-media/media-player": 4,
+    "tool-media/media-music": 4,
+    "tool-download/dl-manager": 6,
+    "tool-file/file-archive": 3,
+    "tool-file/file-search": 3,
+    "tool-file/file-sync": 3,
+    "tool-system/sys-tune": 3,
+    "tool-system/sys-clean": 3,
+    "tool-privacy/pass-mgr": 3,
+    "tool-privacy/pass-priv": 2,
+    "tool-image/img-capture": 4,
+    "tool-image/img-edit": 4,
+    "tool-ai/ai-chat": 8,
+    "tool-ai/ai-image": 3,
+    "tool-ai/ai-office": 3,
+    "tool-translate/tr-tool": 6,
+    "tool-chat/chat-im": 5,
+    "tool-devstart/dev-editor": 4,
+    "tool-devstart/dev-env": 4,
+    "tool-devstart/dev-db": 3
   },
   "groupCounts": {
     "creative": 64,
@@ -1154,6 +1472,7 @@
     "dev": 203,
     "pro": 48,
     "ai": 34,
-    "game": 69
+    "game": 69,
+    "tools": 117
   }
 }

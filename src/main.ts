@@ -73,10 +73,10 @@ app.innerHTML = `
         <span class="brand-mark">${ICONS.triangle}</span>
         <span>skill233</span>
         <span class="sep">/</span>
-        <small>Agent Skill 超链接中心</small>
+        <small>Skill · 软件工具超链接中心</small>
       </a>
       <div class="top-spacer"></div>
-      <div class="top-stat"><b>${metaData.total}</b> skills · <b>${groups.length}</b> 分组 · <b>${categories.length}</b> 领域</div>
+      <div class="top-stat"><b>${metaData.total}</b> 项 · <b>${groups.length}</b> 分组 · <b>${categories.length}</b> 领域</div>
       <a class="btn-ghost" href="https://github.com/neko233-com/skill233-all" target="_blank" rel="noopener">
         ${ICONS.github} GitHub
       </a>
@@ -89,11 +89,11 @@ app.innerHTML = `
     <main class="main">
       <section class="hero">
         <div class="hero-badge"><span class="dot"></span> 纯静态 · 毫秒检索 · 分组浏览 · 每日更新</div>
-        <h1>找到好用的 <span class="dim">Agent Skill</span></h1>
-        <p>收录 <b>neko233 自用技能</b> 与 <b>业内优质 Skill</b>，按 <b>分组 → 领域 → 子分组</b> 组织，<b>一键直达</b>源仓库。</p>
+        <h1>找到好用的 <span class="dim">Skill 与软件</span></h1>
+        <p>收录 <b>自用技能</b>、<b>业内优质 Skill</b> 与 <b>${metaData.tools} 款好用软件</b>，按 <b>分组 → 领域 → 子分组</b> 组织，<b>一键直达</b>官网或源仓库。</p>
         <div class="searchbox" id="searchbox">
           <span class="s-icon">${ICONS.search}</span>
-          <input id="q" type="text" placeholder="搜索 skill、领域、作者、关键词…  例如：法律 / 游戏 / design / contract" autocomplete="off" spellcheck="false" />
+          <input id="q" type="text" placeholder="搜索技能、软件、平台、领域…  例如：Clash Verge / 法律 / 截图 / iOS / 密码" autocomplete="off" spellcheck="false" />
           <div class="kbd"><kbd>⌘</kbd><kbd>K</kbd></div>
           <button class="clear" id="clear" title="清除">✕</button>
         </div>
@@ -119,7 +119,7 @@ app.innerHTML = `
       <footer>
         <div class="foot-inner">
           <div class="foot-brand">${ICONS.triangle} skill233</div>
-          <div class="foot-note">数据采集自 GitHub · 生成于 ${esc(metaData.generatedAt.slice(0, 10))} · 无后端纯前端</div>
+          <div class="foot-note">GitHub 数据自动采集 · 软件工具人工精选 · 生成于 ${esc(metaData.generatedAt.slice(0, 10))} · 无后端纯前端</div>
           <div><a href="https://github.com/neko233-com" target="_blank" rel="noopener">neko233-com</a> · <a href="https://skill.neko233.com" target="_blank" rel="noopener">skill.neko233.com</a></div>
         </div>
       </footer>
@@ -135,18 +135,23 @@ app.innerHTML = `
 /* ----------------------------- sidebar ----------------------------- */
 const sidebar = document.getElementById('sidebar')!;
 const QUICK = [
-  { id: 'all', label: '全部技能', icon: '⊞' },
+  { id: 'all', label: '全部内容', icon: '⊞' },
   { id: 'featured', label: '精选', icon: '✦' },
+  { id: 'tool', label: '软件工具', icon: '🧰' },
   { id: 'mine', label: '我的', icon: '◉' },
   { id: 'curated', label: '业内', icon: '◎' },
 ];
+const PLAT_SHORT: Record<string, string> = {
+  Windows: 'Win', macOS: 'Mac', Linux: 'Linux', iOS: 'iOS',
+  Android: 'Android', Web: 'Web', Extension: '扩展',
+};
 
 function renderSidebar() {
   const quick = QUICK.map((q) => `
     <button class="side-quick ${state.source === q.id && state.group === 'all' && state.category === 'all' ? 'active' : ''}"
             data-source="${q.id}">
       <span class="sq-ico">${q.icon}</span><span class="sq-label">${q.label}</span>
-      <span class="sq-cnt">${q.id === 'all' ? metaData.total : q.id === 'mine' ? metaData.mine : q.id === 'curated' ? metaData.curated : skills.filter((s) => s.featured).length}</span>
+      <span class="sq-cnt">${q.id === 'all' ? metaData.total : q.id === 'mine' ? metaData.mine : q.id === 'curated' ? metaData.curated : q.id === 'tool' ? metaData.tools : skills.filter((s) => s.featured).length}</span>
     </button>`).join('');
 
   const groupHTML = groups.map((g) => {
@@ -211,26 +216,33 @@ function subLabel(s: Skill): string {
 
 function cardHTML(s: Skill): string {
   const cat = catById.get(s.category);
+  const isTool = s.source === 'tool';
+  const plats = s.platforms || [];
+  const srcBadge = isTool ? 'TOOL' : s.source === 'mine' ? 'MINE' : 'CURATED';
   return `
-    <a class="card" href="${esc(s.url)}" target="_blank" rel="noopener" data-id="${esc(s.id)}"
+    <a class="card ${isTool ? 'card-tool' : ''}" href="${esc(s.url)}" target="_blank" rel="noopener" data-id="${esc(s.id)}"
        title="${esc(s.descriptionZh || s.description)}">
       <div class="card-top">
         <div class="card-ico">${cat?.icon || '📦'}</div>
         <div class="card-title">
           <div class="card-name">${esc(s.name)}<span class="ext">${ICONS.external}</span></div>
-          <div class="card-owner">${esc(s.fullName)}</div>
+          <div class="card-owner">${isTool ? esc(plats.map((p) => PLAT_SHORT[p] || p).join(' · ')) : esc(s.fullName)}</div>
         </div>
       </div>
       <div class="card-desc">${esc(s.descriptionZh || s.description || '—')}</div>
       <div class="card-tags">
         <span class="tag tag-domain">${cat?.icon || ''} ${esc(cat?.label || '')}</span>
         <span class="tag">${esc(subLabel(s))}</span>
-        ${s.tags.slice(0, 2).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}
+        ${isTool
+          ? `${plats.slice(0, 3).map((p) => `<span class="tag tag-plat">${esc(p)}</span>`).join('')}<span class="tag tag-lic">${esc(s.license || '')}</span>`
+          : s.tags.slice(0, 2).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}
       </div>
       <div class="card-foot">
-        <span class="star">${ICONS.star} ${fmtStars(s.stars)}</span>
-        ${s.language ? `<span class="lang"><span class="lang-dot" style="background:${langColor(s.language)}"></span>${esc(s.language)}</span>` : ''}
-        <span class="badge-src ${s.source}">${s.source === 'mine' ? 'MINE' : 'CURATED'}</span>
+        ${isTool
+          ? `<span class="plat-line">${esc(plats.slice(0, 4).map((p) => PLAT_SHORT[p] || p).join(' / '))}${plats.length > 4 ? ' …' : ''}</span>`
+          : `<span class="star">${ICONS.star} ${fmtStars(s.stars)}</span>
+             ${s.language ? `<span class="lang"><span class="lang-dot" style="background:${langColor(s.language)}"></span>${esc(s.language)}</span>` : ''}`}
+        <span class="badge-src ${s.source}">${srcBadge}</span>
       </div>
     </a>`;
 }
@@ -286,7 +298,7 @@ function render() {
   else gridHost.innerHTML = `<div class="grid">${list.length ? list.map(cardHTML).join('') : `
     <div class="empty" style="grid-column:1/-1">
       <div class="e-ico">∅</div>
-      <h3>没有匹配的 Skill</h3>
+      <h3>没有匹配的内容</h3>
       <p>换个关键词，或清除左侧筛选条件试试。</p>
     </div>`}</div>`;
 
@@ -297,12 +309,12 @@ function render() {
   let label = '';
   if (cat) label = `${cat.icon} ${esc(cat.label)}${sub ? ` / ${esc(sub.label)}` : ''}`;
   else if (grp) label = `${grp.icon} ${esc(grp.label)} · 全部领域`;
-  else label = '全部技能';
+  else label = '全部内容';
   resultsTitle.innerHTML = `${label} <span class="rt-sep">·</span> <b>${list.length}</b> 个结果`;
 
   searchMeta.innerHTML = state.query.trim()
     ? `检索 “<b>${esc(state.query.trim())}</b>” · 命中 <b>${list.length}</b> 项 · 毫秒级`
-    : `共 <b>${metaData.total}</b> 个 Skill · <b>${groups.length}</b> 个分组 · <b>${categories.length}</b> 个领域 · 点击卡片直达 GitHub`;
+    : `共 <b>${metaData.total}</b> 项（<b>${metaData.tools}</b> 款软件工具）· <b>${groups.length}</b> 个分组 · <b>${categories.length}</b> 个领域 · 点击卡片直达`;
 
   renderSidebar();
   renderSubRow();
@@ -468,20 +480,29 @@ function openDrawer(id: string) {
   const cat = catById.get(s.category);
   const grp = groupById.get(s.group);
   const sub = cat?.subs.find((x) => x.id === s.subGroup);
+  const isTool = s.source === 'tool';
+  const plats = s.platforms || [];
+  const repoUrl = s.hasRepo && !s.url.includes('github.com') ? `https://github.com/${s.fullName}` : '';
   drawer.innerHTML = `
     <button class="drawer-close" id="dclose" aria-label="关闭">✕</button>
     <div class="d-head">
       <div class="d-ico">${cat?.icon || '📦'}</div>
       <div>
         <div class="d-name">${esc(s.name)}</div>
-        <div class="d-full">${esc(s.fullName)}</div>
+        <div class="d-full">${esc(isTool ? '官方网站 / 下载地址' : s.fullName)}</div>
         <div class="d-cat">${grp?.icon || ''} ${esc(grp?.label || '')} / ${cat?.icon || ''} ${esc(cat?.label || '')} / ${esc(sub?.label || '综合')}</div>
       </div>
     </div>
     <div class="d-stats">
-      <div class="d-stat"><b>${fmtStars(s.stars)}</b><span>Stars</span></div>
-      <div class="d-stat"><b>${esc(s.language || '—')}</b><span>语言</span></div>
-      <div class="d-stat"><b>${s.source === 'mine' ? '我的' : '业内'}</b><span>来源</span></div>
+      ${isTool ? `
+        <div class="d-stat"><b>${esc(plats.slice(0, 3).map((p) => PLAT_SHORT[p] || p).join(' / ') || '—')}</b><span>支持平台</span></div>
+        <div class="d-stat"><b>${esc(s.license || '—')}</b><span>授权</span></div>
+        <div class="d-stat"><b>${s.hasRepo ? '有源码' : '官网'}</b><span>类型</span></div>
+      ` : `
+        <div class="d-stat"><b>${fmtStars(s.stars)}</b><span>Stars</span></div>
+        <div class="d-stat"><b>${esc(s.language || '—')}</b><span>语言</span></div>
+        <div class="d-stat"><b>${s.source === 'mine' ? '我的' : '业内'}</b><span>来源</span></div>
+      `}
     </div>
     <div class="d-section">
       <h4>简介</h4>
@@ -490,13 +511,15 @@ function openDrawer(id: string) {
     </div>
     ${s.tags.length ? `<div class="d-section"><h4>标签</h4><div class="d-tags">${s.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div></div>` : ''}
     <div class="d-section">
-      <h4>快速开始</h4>
+      <h4>${isTool ? '获取方式' : '快速开始'}</h4>
       <div class="d-actions">
-        <a class="btn primary" href="${esc(s.url)}" target="_blank" rel="noopener">${ICONS.external} 打开仓库</a>
-        ${s.homepage ? `<a class="btn" href="${esc(s.homepage)}" target="_blank" rel="noopener">${ICONS.docs} 官网</a>` : ''}
+        <a class="btn primary" href="${esc(s.url)}" target="_blank" rel="noopener">${ICONS.external} ${isTool ? '打开官网 / 下载' : '打开仓库'}</a>
+        ${isTool
+          ? (repoUrl ? `<a class="btn" href="${esc(repoUrl)}" target="_blank" rel="noopener">${ICONS.github} 源码</a>` : '')
+          : (s.homepage ? `<a class="btn" href="${esc(s.homepage)}" target="_blank" rel="noopener">${ICONS.docs} 官网</a>` : '')}
       </div>
       <div class="copy-box">
-        <code>${esc(s.install)}</code>
+        <code>${esc(isTool ? s.url : s.install)}</code>
         <button id="copybtn" title="复制">${ICONS.copy}</button>
       </div>
     </div>
@@ -504,7 +527,7 @@ function openDrawer(id: string) {
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('dclose')!.addEventListener('click', closeDrawer);
-  document.getElementById('copybtn')!.addEventListener('click', () => copy(s.install));
+  document.getElementById('copybtn')!.addEventListener('click', () => copy(isTool ? s.url : s.install));
 }
 
 function closeDrawer() {

@@ -14,6 +14,7 @@ import { tokenize, FIELD_WEIGHTS } from '../src/lib/tokenize.js';
 import {
   GROUPS, DOMAINS, classifyDomain, classifySubGroup,
 } from '../src/lib/taxonomy.mjs';
+import { TOOLS, PLATFORM_ALIASES } from '../src/lib/tools-data.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = path.join(ROOT, 'data');
@@ -270,6 +271,41 @@ for (const o of curated) {
   }, hay));
 }
 
+/* ------------------------ software tools (links) ------------------------ */
+for (const t of TOOLS) {
+  const domain = domainById.get(t.cat);
+  if (!domain) { console.warn(`unknown tool domain: ${t.cat} (${t.name})`); continue; }
+  const subOk = domain.subs.some((s) => s.id === t.sub);
+  if (!subOk) { console.warn(`unknown tool subGroup: ${t.cat}/${t.sub} (${t.name})`); continue; }
+  const platAliases = t.platforms.flatMap((p) => PLATFORM_ALIASES[p] || [p]);
+  pushEntry({
+    id: slug(`tool-${t.name}`),
+    name: t.name,
+    owner: t.repo ? t.repo.split('/')[0] : '',
+    // Cross-listed tools (e.g. Bitwarden in both browser-ext and pass-mgr)
+    // need a unique key, otherwise the global fullName dedupe drops them.
+    fullName: t.repo || `${t.name} · ${t.sub}`,
+    url: t.url,
+    homepage: t.url,
+    description: t.desc,
+    descriptionZh: t.desc,
+    stars: 0, forks: 0, language: '',
+    topics: [],
+    tags: [...new Set([...t.tags, ...platAliases, t.license])].slice(0, 8),
+    category: t.cat,
+    group: domain.group,
+    subGroup: t.sub,
+    source: 'tool',
+    isSkill: false,
+    featured: false,
+    install: t.url,
+    updatedAt: '',
+    platforms: t.platforms,
+    license: t.license,
+    hasRepo: !!t.repo,
+  });
+}
+
 /* --------------------------- build index -------------------------------- */
 /** @type {Record<string, number[]>} flat [id, weight, id, weight, ...] */
 const postings = Object.create(null);
@@ -287,6 +323,8 @@ entries.forEach((e, id) => {
     [groupById.get(e.group)?.label || '', FIELD_WEIGHTS.category * 0.4],
     [e.topics.join(' '), FIELD_WEIGHTS.topics],
     [e.owner, FIELD_WEIGHTS.owner],
+    [(e.platforms || []).join(' '), FIELD_WEIGHTS.tags],
+    [e.license || '', FIELD_WEIGHTS.tags * 0.6],
   ];
   const seen = new Set();
   for (const [text, weight] of fields) {
@@ -326,6 +364,7 @@ fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify({
   total: entries.length,
   mine: entries.filter((e) => e.source === 'mine').length,
   curated: entries.filter((e) => e.source === 'curated').length,
+  tools: entries.filter((e) => e.source === 'tool').length,
   groups: groupsWithCounts,
   categories: domainsWithCounts,
   counts,
@@ -333,7 +372,7 @@ fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify({
   groupCounts,
 }, null, 2));
 
-console.log(`catalog: ${entries.length} entries`);
+console.log(`catalog: ${entries.length} entries (tools: ${entries.filter((e) => e.source === 'tool').length})`);
 console.log(`groups:  ${groupsWithCounts.map((g) => `${g.label}:${g.count}`).join('  ')}`);
 console.log(`index:   ${tokens.length} unique tokens`);
 console.log(`written to ${OUT}`);

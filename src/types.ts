@@ -18,11 +18,15 @@ export interface Skill {
   group: string;
   /** in-domain sub-group id, e.g. 'pixel', 'contract', 'framework' */
   subGroup: string;
-  source: 'mine' | 'curated';
+  source: 'mine' | 'curated' | 'tool';
   isSkill: boolean;
   featured: boolean;
   install: string;
   updatedAt: string;
+  /** Software-tool-only fields (source === 'tool'). */
+  platforms?: string[];
+  license?: string;
+  hasRepo?: boolean;
 }
 
 export interface SubGroup {
@@ -55,6 +59,7 @@ export interface Meta {
   total: number;
   mine: number;
   curated: number;
+  tools: number;
   groups: Group[];
   categories: Category[];
   counts: Record<string, number>;
