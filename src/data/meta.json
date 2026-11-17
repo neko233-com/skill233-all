@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-16T12:30:50.594Z",
-  "total": 679,
-  "mine": 314,
+  "generatedAt": "2026-11-17T06:30:26.158Z",
+  "total": 680,
+  "mine": 315,
   "curated": 124,
   "tools": 241,
   "groups": [
@@ -45,7 +45,7 @@
       "label": "专业领域",
       "icon": "§",
       "desc": "法律 · 金融 · 医疗 · 教育 · 研究 · 营销",
-      "count": 48
+      "count": 49
     },
     {
       "id": "life",
@@ -1204,12 +1204,18 @@
           "count": 3
         },
         {
+          "id": "business-reg",
+          "label": "工商 / 公司",
+          "kw": {},
+          "count": 1
+        },
+        {
           "id": "general",
           "label": "综合",
           "count": 1
         }
       ],
-      "count": 8
+      "count": 9
     },
     {
       "id": "finance",
@@ -1513,6 +1519,7 @@
     }
   ],
   "counts": {
+    "legal": 9,
     "design": 34,
     "other": 14,
     "language": 51,
@@ -1539,7 +1546,6 @@
     "content": 6,
     "research": 5,
     "game-ops": 1,
-    "legal": 8,
     "marketing": 6,
     "efficiency": 2,
     "llm-app": 1,
@@ -1572,6 +1578,7 @@
     "tool-neko": 51
   },
   "subCounts": {
+    "legal/business-reg": 1,
     "design/ux": 27,
     "other/general": 14,
     "language/toolchain": 16,
@@ -1707,10 +1714,10 @@
     "tool-neko/neko-agent": 6
   },
   "groupCounts": {
+    "pro": 49,
     "creative": 64,
     "life": 20,
     "dev": 203,
-    "pro": 48,
     "ai": 34,
     "game": 69,
     "tools": 241

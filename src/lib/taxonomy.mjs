@@ -388,6 +388,7 @@ export const DOMAINS = [
       { id: 'legal-ai', label: '法律 AI 平台', kw: /legal ai|legalai|法律|law|legal.?agent|mike|legalwork/i },
       { id: 'contract', label: '合同审查', kw: /contract|合同|redline|审查|legal.?document/i },
       { id: 'legal-kb', label: '法规 / 知识库', kw: /awesome|resource|knowledge|法规|知识库|legaltech|法律.?资源/i },
+      { id: 'business-reg', label: '工商 / 公司', kw: /公司|工商|核名|注册|企业名|子公司|company|business.reg|incorporat/i },
       GENERAL,
     ],
   },
@@ -557,6 +558,7 @@ export const DOMAIN_OVERRIDES = {
   'libretranslate/LibreTranslate': 'translate',
   'neko233-com/graphify233': 'rag',
   'neko233-com/skill-ux-for-app-by-web': 'design',
+  'neko233-com/skill233-check-company-name': 'legal',
 };
 
 /* Per-repo sub-group overrides (rare; keyword sub-classifier handles most). */
@@ -570,6 +572,7 @@ export const SUB_OVERRIDES = {
   'rohasnagpal/legal-ai-skills': 'legal-ai',
   'sunyifeisb-art/legalwork': 'legal-ai',
   'Ginowine/redline': 'contract',
+  'neko233-com/skill233-check-company-name': 'business-reg',
 };
 
 export function classifyDomain(text, fullName = '') {

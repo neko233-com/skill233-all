@@ -10,7 +10,7 @@
 - **全领域覆盖**：7 大分组、57 个领域、133 个子分组，覆盖 AI 智能、**实用软件**、软件工程、游戏（开发/策划/美术/运营）、设计创意、专业领域（**法律**、金融、医疗、教育、研究、产品、营销、招聘、销售、房地产）、效率生活。
 - **超快检索**：构建期生成倒排索引（7.8k+ token），运行时只切分查询词，中文分词（一元 + 二元）、英文前缀匹配、多词 AND，实测毫秒级。
 - **三类来源**：`我的`（neko233-com 公开仓库）+ `业内`（124 个社区优质 Skill 集合）+ `软件工具`（241 款人工精选软件）。
-- **📖 每项都有文档**：全部 679 项都带「文档」链接——软件指向官方帮助中心 / 教程 / GitHub Wiki，Skill 指向仓库 README。卡片上有 `📖 文档` 快捷入口一键直达，详情页有醒目的「去这里看文档」卡片并附新手提示。
+- **📖 每项都有文档**：全部 680 项都带「文档」链接——软件指向官方帮助中心 / 教程 / GitHub Wiki，Skill 指向仓库 README。卡片上有 `📖 文档` 快捷入口一键直达，详情页有醒目的「去这里看文档」卡片并附新手提示。
 - **🔁 备选工具**：每款软件至少配 3 个同类备选（共 241 款、720+ 条备选关系），详情页可直接点击备选跳转对比其文档、平台与下载方式，解决「不知道选哪个」的问题。
 - **软件工具推荐**：22 个软件领域 / 55 个子分组，覆盖 Windows / macOS / Linux / iOS / Android / Web / 浏览器插件，标注授权类型（开源免费 / 免费 / 免费增值 / 付费）。含 **Clash Verge Rev（电脑）+ Stash / Shadowrocket（iOS）+ Clash Meta for Android / FlClash（安卓）** 全平台方案，以及浏览器、办公、影音、下载、文件管理、系统增强、密码隐私、图片、**PDF、OCR、录屏、远程控制、思维导图、网盘、阅读、日程**、AI 助手、翻译、通讯、编程入门等常用软件。
 - **🐈 neko233 专用软件**：51 款自研软件单独成领域，按「代替谁」组织：`proxysss` 代替 Nginx、`git-next` 代替 Git、`buildworld` 代替 Jenkins、`mydb` 代替 MySQL、`localdb` 代替 SQLite、`Wallpaper233` 代替 Wallpaper Engine、`ihub` 代替 Raycast 等；覆盖网络代理、开发编译、运维数据、桌面效率、媒体创作、AI / Agent 六个子分组。
@@ -71,6 +71,22 @@ npm run dev        # 本地开发服务器
 npm run build      # 构建到 dist/
 npm run preview    # 预览构建产物
 ```
+
+### 在本仓库内并列开发兄弟 skill 仓库
+
+为了方便直接修改本系列的 skill 仓库而不用在上级目录拉一堆兄弟目录，可以把它们
+clone 到本仓库根目录下就地开发。`.gitignore` 已忽略 `skill233-*/`、`skill-*/`、
+`dsh-plugin-*/`、`mcp233-*/`、`tool233-*/`、`ihub-plugin-*/` 前缀的子目录，
+这些目录都是独立 git 仓库，不会被误纳入本仓库的版本管理。例如：
+
+```bash
+# 在本仓库根目录执行，得到 ./skill233-check-company-name/（已被 git 忽略）
+git clone https://github.com/neko233-com/skill233-check-company-name.git
+```
+
+新增其他仓库时，若目录名前缀不在上述列表中，在 `.gitignore` 的「本地并列开发的子 git 仓库」段落补一条即可。
+注意：站点目录里的「引用」是真源数据（`data/gh-mine.json` + `src/lib/taxonomy.mjs`）经 `npm run data:build` 生成的，
+与本地是否 clone 子仓库无关。
 
 ## 数据更新
 
